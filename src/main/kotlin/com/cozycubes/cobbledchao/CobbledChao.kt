@@ -18,6 +18,7 @@ object CobbledChao : ModInitializer {
     private val logger = LoggerFactory.getLogger(MOD_ID)
 
     override fun onInitialize() {
+        logger.info("cobbled-chao loading")
         ChaoModule.registerAll()
         ChaosDriveModule.registerAll()
     }
