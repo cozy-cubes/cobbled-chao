@@ -1,0 +1,46 @@
+{
+	"schemaVersion": 1,
+	"id": "cobbled-chao",
+	"version": "${version}",
+	"name": "Cobbled Chao",
+	"description": "Adds Chao to Minecraft!",
+	"authors": [
+		"Cozy Cubes Studios",
+		"Timothy Metcalfe"
+	],
+	"contact": {
+		"homepage": "https://cobbledchao.com/",
+		"sources": "https://github.com/cozy-cubes/cobbled-chao"
+	},
+	"license": "MIT",
+	"icon": "assets/cobbled-chao/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			{
+				"value": "com.cozycubes.cobbledchao.CobbledChao",
+				"adapter": "kotlin"
+			}
+		],
+		"client": [
+			{
+				"value": "com.cozycubes.cobbledchao.client.CobbledChaoClient",
+				"adapter": "kotlin"
+			}
+		]
+	},
+	"mixins": [
+		"cobbled-chao.mixins.json",
+		{
+			"config": "cobbled-chao.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": "~1.21",
+		"java": ">=21",
+		"fabric-api": "*",
+		"fabric-language-kotlin": "*"
+	}
+}
