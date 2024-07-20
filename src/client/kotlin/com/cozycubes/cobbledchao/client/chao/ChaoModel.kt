@@ -33,12 +33,17 @@ class ChaoModel : DefaultedEntityGeoModel<ChaoEntity>(MODEL) {
     ) {
         super.setCustomAnimations(chaoEntity, instanceId, animationState)
 
-        val ballBone: GeoBone = animationProcessor.getBone("ball")
-        if (ballBone != null) {
+        try {
+            val ballBone: GeoBone = animationProcessor.getBone("chao_ball")
+
             val playerPos = Minecraft.getInstance().player?.position() ?: return
             val chaoPos = chaoEntity.position()
+
             val diffVec = playerPos.subtract(chaoPos)
-            ballBone.rotY = Mth.wrapDegrees(Mth.atan2(diffVec.z, diffVec.x) * Mth.RAD_TO_DEG).toFloat() - 90f
+
+            ballBone.rotY = (Mth.atan2(diffVec.x, diffVec.z) + chaoEntity.yBodyRotO * Mth.DEG_TO_RAD).toFloat()
+        } catch (e: Error) {
+            println("Could not find chao_ball bone.")
         }
     }
 }
