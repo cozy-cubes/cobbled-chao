@@ -19,11 +19,12 @@ class ChaosDrive(private val stats: Map<ChaoStat.Companion.STATS, Int>) : Item(
             return super.interactLivingEntity(itemStack, player, livingEntity, interactionHand)
         }
 
-        // TODO: Reject if chao is on cooldown
+        if (livingEntity.isOnStatCooldown) return super.interactLivingEntity(itemStack, player, livingEntity, interactionHand)
 
         val chaoStats = livingEntity.chaoStats
 
         // TODO: Play star ball on top of head for/if any leveled up stats.
+        // TODO: Expand on this because I want to figure out if any leveled up, but also if any didn't receive exp because max level.
         val leveledUp =
             stats.mapNotNull { (stat, value) -> if (chaoStats.boostStat(stat, value)) stat else null }.distinct()
 

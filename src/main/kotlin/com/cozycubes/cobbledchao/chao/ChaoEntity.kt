@@ -33,11 +33,14 @@ class ChaoEntity(entityType: EntityType<out PathfinderMob>, level: Level) : Path
     GeoEntity {
     companion object {
         val ATTRIBUTES = genericMovingAttribs.build()
+        // TODO: Probably config this and separate it out from the particle animation time?
         val STAT_EXP_COOLDOWN = 90
     }
 
     var chaoStats: ChaoStats = ChaoStats()
     var statExpCooldown: Int = 0
+    val isOnStatCooldown: Boolean
+        get() = statExpCooldown > 0
 
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
 
@@ -87,6 +90,7 @@ class ChaoEntity(entityType: EntityType<out PathfinderMob>, level: Level) : Path
     }
 
     override fun tick() {
+        // TODO: Reset Chao's previous logic. Currently pauses mid-action, causing it to stutter.
         if (statExpCooldown <= 0) {
             return super.tick()
         }
