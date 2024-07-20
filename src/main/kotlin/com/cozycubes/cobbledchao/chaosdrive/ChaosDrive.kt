@@ -31,7 +31,6 @@ class ChaosDrive(private val stats: Map<ChaoStat.Companion.STATS, Int>) : Item(
         // TODO: Play star ball on top of head for/if any leveled up stats.
         val results = stats.map { (stat, value) -> chaoStats.boostStat(stat, value) }
         println("Client: ${player.level().isClientSide}, Result: ${results.all { it.failed }}, Level: ${livingEntity.chaoData.stats.fly.level}")
-        // TODO: If none levelled up, reject.
         if (results.all { it.failed }) {
             return InteractionResult.PASS
         }
@@ -39,7 +38,6 @@ class ChaosDrive(private val stats: Map<ChaoStat.Companion.STATS, Int>) : Item(
         livingEntity.usedChaoDrive()
         itemStack.consume(1, player)
 
-        // TODO: Make sure this is the right thing to return...
         return InteractionResult.CONSUME
     }
 }
