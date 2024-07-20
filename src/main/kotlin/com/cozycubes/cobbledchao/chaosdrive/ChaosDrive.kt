@@ -19,6 +19,8 @@ class ChaosDrive(private val stats: Map<ChaoStat.Companion.STATS, Int>) : Item(
             return super.interactLivingEntity(itemStack, player, livingEntity, interactionHand)
         }
 
+        // TODO: Reject if chao is on cooldown
+
         val chaoStats = livingEntity.chaoStats
 
         // TODO: Play star ball on top of head for/if any leveled up stats.
@@ -26,8 +28,9 @@ class ChaosDrive(private val stats: Map<ChaoStat.Companion.STATS, Int>) : Item(
             stats.mapNotNull { (stat, value) -> if (chaoStats.boostStat(stat, value)) stat else null }.distinct()
 
         livingEntity.usedChaoDrive()
-        // TODO: Consume one from stack
+        itemStack.consume(1, player)
 
+        // TODO: Make sure this is the right thing to return...
         return super.interactLivingEntity(itemStack, player, livingEntity, interactionHand)
     }
 }
