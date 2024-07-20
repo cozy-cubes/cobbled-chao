@@ -22,11 +22,9 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.PathfinderMob
 import net.minecraft.world.entity.ai.goal.*
-import net.minecraft.world.entity.ai.targeting.TargetingConditions
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
-import net.minecraft.world.phys.AABB
 import software.bernie.geckolib.animatable.GeoEntity
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.animation.AnimatableManager
@@ -108,8 +106,6 @@ class ChaoEntity(entityType: EntityType<out PathfinderMob>, level: Level) : Path
             return super.tick()
         }
 
-        val world = level()
-
         val ticksTotal = 90
         val radius = 0.5
         val height = 0.45
@@ -117,7 +113,6 @@ class ChaoEntity(entityType: EntityType<out PathfinderMob>, level: Level) : Path
 
         val progressPercent = 1.0 * (ticksTotal - expCooldown) / ticksTotal
 
-        // TODO: Rotate such that the initial particle is in front of the Chao
         val angle = (2 * Math.PI) / ticksTotal * expCooldown * rotationSpeed
         val particleX = x + radius * cos(angle) * (1 - progressPercent * 0.5)
         val particleZ = z + radius * sin(angle) * (1 - progressPercent * 0.5)
@@ -149,20 +144,27 @@ class ChaoEntity(entityType: EntityType<out PathfinderMob>, level: Level) : Path
         speedY: Double,
         speedZ: Double
     ) {
-        level().getNearbyPlayers(
-            TargetingConditions.DEFAULT.selector { it is ServerPlayer },
-            this,
-            AABB.ofSize(position(), 64.0, 64.0, 64.0)
-        ).forEach {
-            Network.sendAddParticlePacket(
-                it as ServerPlayer,
-                ParticlePayload(particleType, x, y, z, speedX, speedY, speedZ)
-            )
-        }
+        level().players()
+            .forEach {
+                Network.sendAddParticlePacket(
+                    it as ServerPlayer,
+                    ParticlePayload(particleType, x, y, z, speedX, speedY, speedZ)
+                )
+            }
+        // TODO[RESEARCH]: Why does this sometimes not send to someone standing right next to the Chao?
+//        level().getNearbyPlayers(
+//            TargetingConditions.DEFAULT.selector { it is ServerPlayer },
+//            this,
+//            AABB.ofSize(position(), 64.0, 64.0, 64.0)
+//        ).forEach {
+//            Network.sendAddParticlePacket(
+//                it as ServerPlayer,
+//                ParticlePayload(particleType, x, y, z, speedX, speedY, speedZ)
+//            )
+//        }
     }
 
     fun usedChaoDrive() {
         expCooldown = EXP_COOLDOWN
-
     }
 }
