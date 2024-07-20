@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory
 
 object CobbledChao : ModInitializer {
     val MOD_ID = "cobbled-chao"
-    private val logger = LoggerFactory.getLogger(MOD_ID)
+    val logger = LoggerFactory.getLogger(MOD_ID)
 
     override fun onInitialize() {
         logger.info("cobbled-chao loading")
