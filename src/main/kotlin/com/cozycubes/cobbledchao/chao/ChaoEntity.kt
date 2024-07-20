@@ -43,15 +43,8 @@ class ChaoEntity(entityType: EntityType<out PathfinderMob>, level: Level) : Path
     }
 
     var chaoData: ChaoData = ChaoData()
-    val chaoStats: ChaoStats
-        get() = chaoData.stats
-    var expCooldown: Int
-        set(newValue) {
-            chaoData.expCooldown = newValue
-        }
-        get() = chaoData.expCooldown
     val isOnExpCooldown: Boolean
-        get() = expCooldown > 0
+        get() = chaoData.expCooldown > 0
 
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
 
@@ -102,7 +95,7 @@ class ChaoEntity(entityType: EntityType<out PathfinderMob>, level: Level) : Path
 
     override fun tick() {
         // TODO: Reset Chao's previous logic. Currently pauses mid-action, causing it to stutter.
-        if (expCooldown <= 0) {
+        if (chaoData.expCooldown <= 0) {
             return super.tick()
         }
 
@@ -111,16 +104,16 @@ class ChaoEntity(entityType: EntityType<out PathfinderMob>, level: Level) : Path
         val height = 0.45
         val rotationSpeed = 3.0
 
-        val progressPercent = 1.0 * (ticksTotal - expCooldown) / ticksTotal
+        val progressPercent = 1.0 * (ticksTotal - chaoData.expCooldown) / ticksTotal
 
-        val angle = (2 * Math.PI) / ticksTotal * expCooldown * rotationSpeed
+        val angle = (2 * Math.PI) / ticksTotal * chaoData.expCooldown * rotationSpeed
         val particleX = x + radius * cos(angle) * (1 - progressPercent * 0.5)
         val particleZ = z + radius * sin(angle) * (1 - progressPercent * 0.5)
         val particleY = y + 0.2 + height * progressPercent
 
         spawnParticle(ParticleTypes.CRIT, particleX, particleY, particleZ, 0.0, 0.0, 0.0)
 
-        if (expCooldown == 1) {
+        if (chaoData.expCooldown == 1) {
             val explosionParticleCount = 6
             for (r in 0..explosionParticleCount) {
                 val explosionAngle = (2 * Math.PI) / explosionParticleCount * r
@@ -132,7 +125,7 @@ class ChaoEntity(entityType: EntityType<out PathfinderMob>, level: Level) : Path
             }
         }
 
-        expCooldown--
+        chaoData.expCooldown--
     }
 
     fun spawnParticle(
@@ -165,6 +158,6 @@ class ChaoEntity(entityType: EntityType<out PathfinderMob>, level: Level) : Path
     }
 
     fun usedChaoDrive() {
-        expCooldown = EXP_COOLDOWN
+        chaoData.expCooldown = EXP_COOLDOWN
     }
 }

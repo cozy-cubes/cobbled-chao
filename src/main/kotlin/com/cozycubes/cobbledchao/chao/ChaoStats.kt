@@ -43,7 +43,7 @@ class ChaoStats(
         ChaoStat.Companion.STATS.LUCK -> luck
     }
 
-    fun boostStat(stat: ChaoStat.Companion.STATS, grantedExp: Int): BoostStatResult {
+    fun grantStatExp(stat: ChaoStat.Companion.STATS, grantedExp: Int): BoostStatResult {
         return getStat(stat).grantStatExp(grantedExp)
     }
 }
