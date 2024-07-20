@@ -11,13 +11,13 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 
 class ChaoStats(
-    val swim: ChaoStat,
-    val fly: ChaoStat,
-    val run: ChaoStat,
-    val power: ChaoStat,
-    val stamina: ChaoStat,
-    val intelligence: ChaoStat,
-    val luck: ChaoStat
+    val swim: ChaoStat = ChaoStat(),
+    val fly: ChaoStat = ChaoStat(),
+    val run: ChaoStat = ChaoStat(),
+    val power: ChaoStat = ChaoStat(),
+    val stamina: ChaoStat = ChaoStat(),
+    val intelligence: ChaoStat = ChaoStat(),
+    val luck: ChaoStat = ChaoStat()
 ) {
     companion object {
         val CODEC: Codec<ChaoStats> = RecordCodecBuilder.create { instance ->
@@ -33,8 +33,6 @@ class ChaoStats(
         }
     }
 
-    constructor() : this(ChaoStat(), ChaoStat(), ChaoStat(), ChaoStat(), ChaoStat(), ChaoStat(), ChaoStat())
-
     fun getStat(stat: ChaoStat.Companion.STATS): ChaoStat = when (stat) {
         ChaoStat.Companion.STATS.SWIM -> swim
         ChaoStat.Companion.STATS.FLY -> fly
@@ -45,7 +43,7 @@ class ChaoStats(
         ChaoStat.Companion.STATS.LUCK -> luck
     }
 
-    fun boostStat(stat: ChaoStat.Companion.STATS, grantedExp: Int): Boolean {
+    fun boostStat(stat: ChaoStat.Companion.STATS, grantedExp: Int): BoostStatResult {
         return getStat(stat).grantStatExp(grantedExp)
     }
 }

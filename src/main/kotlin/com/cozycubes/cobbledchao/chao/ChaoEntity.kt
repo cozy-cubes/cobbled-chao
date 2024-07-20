@@ -11,16 +11,22 @@ import com.cozycubes.cobbledchao.CobbledChao.logger
 import com.cozycubes.cobbledchao.chaosdrive.ChaosDriveTags
 import com.cozycubes.cobbledchao.data.NbtKeys
 import com.cozycubes.cobbledchao.extensions.possibleCompound
+import com.cozycubes.cobbledchao.network.Network
+import com.cozycubes.cobbledchao.network.ParticlePayload
 import com.cozycubes.cobbledchao.util.PremadeEntityAttributes.genericMovingAttribs
 import net.minecraft.core.particles.ParticleTypes
+import net.minecraft.core.particles.SimpleParticleType
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtOps
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.PathfinderMob
 import net.minecraft.world.entity.ai.goal.*
+import net.minecraft.world.entity.ai.targeting.TargetingConditions
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
+import net.minecraft.world.phys.AABB
 import software.bernie.geckolib.animatable.GeoEntity
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.animation.AnimatableManager
@@ -33,14 +39,21 @@ class ChaoEntity(entityType: EntityType<out PathfinderMob>, level: Level) : Path
     GeoEntity {
     companion object {
         val ATTRIBUTES = genericMovingAttribs.build()
+
         // TODO: Probably config this and separate it out from the particle animation time?
-        val STAT_EXP_COOLDOWN = 90
+        val EXP_COOLDOWN = 90
     }
 
-    var chaoStats: ChaoStats = ChaoStats()
-    var statExpCooldown: Int = 0
-    val isOnStatCooldown: Boolean
-        get() = statExpCooldown > 0
+    var chaoData: ChaoData = ChaoData()
+    val chaoStats: ChaoStats
+        get() = chaoData.stats
+    var expCooldown: Int
+        set(newValue) {
+            chaoData.expCooldown = newValue
+        }
+        get() = chaoData.expCooldown
+    val isOnExpCooldown: Boolean
+        get() = expCooldown > 0
 
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
 
@@ -50,10 +63,10 @@ class ChaoEntity(entityType: EntityType<out PathfinderMob>, level: Level) : Path
 
     override fun load(chaoEntityNbt: CompoundTag) {
         super.load(chaoEntityNbt)
-        chaoEntityNbt.possibleCompound(NbtKeys.CHAO.nbtKey)?.let{
-            val loader = ChaoStats.CODEC.parse(NbtOps.INSTANCE, it)
+        chaoEntityNbt.possibleCompound(NbtKeys.CHAO.nbtKey)?.let {
+            val loader = ChaoData.CODEC.parse(NbtOps.INSTANCE, it)
             if (loader.isSuccess) {
-                chaoStats = loader.orThrow
+                chaoData = loader.orThrow
             } else {
                 logger.info("Unable to load Chao's NBT")
             }
@@ -61,9 +74,9 @@ class ChaoEntity(entityType: EntityType<out PathfinderMob>, level: Level) : Path
     }
 
     override fun saveWithoutId(chaoEntityNbt: CompoundTag): CompoundTag {
-        val chaoDataNbt = ChaoStats.CODEC.encodeStart(NbtOps.INSTANCE, chaoStats)
-        if (chaoDataNbt.isSuccess) {
-            chaoEntityNbt.put(NbtKeys.CHAO.nbtKey, chaoDataNbt.orThrow)
+        val saver = ChaoData.CODEC.encodeStart(NbtOps.INSTANCE, chaoData)
+        if (saver.isSuccess) {
+            chaoEntityNbt.put(NbtKeys.CHAO.nbtKey, saver.orThrow)
         } else {
             logger.info("Unable to save Chao's NBT")
         }
@@ -91,7 +104,7 @@ class ChaoEntity(entityType: EntityType<out PathfinderMob>, level: Level) : Path
 
     override fun tick() {
         // TODO: Reset Chao's previous logic. Currently pauses mid-action, causing it to stutter.
-        if (statExpCooldown <= 0) {
+        if (expCooldown <= 0) {
             return super.tick()
         }
 
@@ -102,37 +115,54 @@ class ChaoEntity(entityType: EntityType<out PathfinderMob>, level: Level) : Path
         val height = 0.45
         val rotationSpeed = 3.0
 
-        val progressPercent = 1.0 * (ticksTotal - statExpCooldown) / ticksTotal
+        val progressPercent = 1.0 * (ticksTotal - expCooldown) / ticksTotal
 
-        val angle = (2 * Math.PI) / ticksTotal * statExpCooldown * rotationSpeed
+        // TODO: Rotate such that the initial particle is in front of the Chao
+        val angle = (2 * Math.PI) / ticksTotal * expCooldown * rotationSpeed
         val particleX = x + radius * cos(angle) * (1 - progressPercent * 0.5)
         val particleZ = z + radius * sin(angle) * (1 - progressPercent * 0.5)
         val particleY = y + 0.2 + height * progressPercent
 
-        world.addParticle(ParticleTypes.CRIT, particleX, particleY, particleZ, 0.0, 0.0, 0.0)
+        spawnParticle(ParticleTypes.CRIT, particleX, particleY, particleZ, 0.0, 0.0, 0.0)
 
-        if (statExpCooldown == 1) {
+        if (expCooldown == 1) {
             val explosionParticleCount = 6
             for (r in 0..explosionParticleCount) {
                 val explosionAngle = (2 * Math.PI) / explosionParticleCount * r
                 val explosionSpeedX = cos(explosionAngle)
                 val explosionSpeedZ = sin(explosionAngle)
-                world.addParticle(
-                    ParticleTypes.CRIT,
-                    x,
-                    y + height,
-                    z,
-                    explosionSpeedX,
-                    1.0,
-                    explosionSpeedZ
+                spawnParticle(
+                    ParticleTypes.CRIT, x, y + height, z, explosionSpeedX, 1.0, explosionSpeedZ
                 )
             }
         }
 
-        statExpCooldown--
+        expCooldown--
+    }
+
+    fun spawnParticle(
+        particleType: SimpleParticleType,
+        x: Double,
+        y: Double,
+        z: Double,
+        speedX: Double,
+        speedY: Double,
+        speedZ: Double
+    ) {
+        level().getNearbyPlayers(
+            TargetingConditions.DEFAULT.selector { it is ServerPlayer },
+            this,
+            AABB.ofSize(position(), 64.0, 64.0, 64.0)
+        ).forEach {
+            Network.sendAddParticlePacket(
+                it as ServerPlayer,
+                ParticlePayload(particleType, x, y, z, speedX, speedY, speedZ)
+            )
+        }
     }
 
     fun usedChaoDrive() {
-        statExpCooldown = STAT_EXP_COOLDOWN
+        expCooldown = EXP_COOLDOWN
+
     }
 }

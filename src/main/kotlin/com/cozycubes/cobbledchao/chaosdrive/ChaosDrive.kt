@@ -15,23 +15,31 @@ class ChaosDrive(private val stats: Map<ChaoStat.Companion.STATS, Int>) : Item(
     override fun interactLivingEntity(
         itemStack: ItemStack, player: Player, livingEntity: LivingEntity, interactionHand: InteractionHand
     ): InteractionResult {
-        if (livingEntity !is ChaoEntity) {
+        if (livingEntity !is ChaoEntity || player.level().isClientSide) {
             return super.interactLivingEntity(itemStack, player, livingEntity, interactionHand)
         }
 
-        if (livingEntity.isOnStatCooldown) return super.interactLivingEntity(itemStack, player, livingEntity, interactionHand)
+        if (livingEntity.isOnExpCooldown) return super.interactLivingEntity(
+            itemStack,
+            player,
+            livingEntity,
+            interactionHand
+        )
 
         val chaoStats = livingEntity.chaoStats
 
         // TODO: Play star ball on top of head for/if any leveled up stats.
-        // TODO: Expand on this because I want to figure out if any leveled up, but also if any didn't receive exp because max level.
-        val leveledUp =
-            stats.mapNotNull { (stat, value) -> if (chaoStats.boostStat(stat, value)) stat else null }.distinct()
+        val results = stats.map { (stat, value) -> chaoStats.boostStat(stat, value) }
+        println("Client: ${player.level().isClientSide}, Result: ${results.all { it.failed }}, Level: ${livingEntity.chaoData.stats.fly.level}")
+        // TODO: If none levelled up, reject.
+        if (results.all { it.failed }) {
+            return InteractionResult.PASS
+        }
 
         livingEntity.usedChaoDrive()
         itemStack.consume(1, player)
 
         // TODO: Make sure this is the right thing to return...
-        return super.interactLivingEntity(itemStack, player, livingEntity, interactionHand)
+        return InteractionResult.CONSUME
     }
 }

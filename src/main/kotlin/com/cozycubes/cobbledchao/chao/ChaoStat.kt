@@ -11,7 +11,11 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import kotlin.math.floor
 
-class ChaoStat(val grade: Int, var experience: Int, var level: Int) {
+class ChaoStat(
+    val grade: Int = 0,
+    var experience: Int = 0,
+    var level: Int = 0
+) {
     companion object {
         // TODO: Abstract and datapackable this.
         enum class STATS(val color: Int?) {
@@ -36,22 +40,15 @@ class ChaoStat(val grade: Int, var experience: Int, var level: Int) {
         }
     }
 
-    constructor() : this(0, 0, 0)
-
-    /**
-     * Grants experience to the ChaoStat, which might lead to an increase in level as well.
-     *
-     * @param givenExp The amount of experience to grant the stat.
-     *
-     * @return Whether the stat's level was increased.
-     */
-    fun grantStatExp(givenExp: Int): Boolean {
-        if (level > MAX_LEVEL) return false
+    fun grantStatExp(givenExp: Int): BoostStatResult {
+        if (level >= MAX_LEVEL) return BoostStatResult(failed = true)
         val newExperience = experience + givenExp
         experience = (newExperience % MAX_EXP).toInt()
         val levelBoost = floor(newExperience / MAX_EXP).toInt()
         level += levelBoost
 
-        return levelBoost > 0
+        return BoostStatResult(
+            leveledUp = levelBoost > 0
+        )
     }
 }
