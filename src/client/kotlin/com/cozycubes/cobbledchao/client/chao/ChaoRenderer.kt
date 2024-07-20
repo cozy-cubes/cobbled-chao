@@ -9,9 +9,6 @@ import software.bernie.geckolib.cache.`object`.BakedGeoModel
 import software.bernie.geckolib.renderer.specialty.DynamicGeoEntityRenderer
 
 class ChaoRenderer(renderManager: EntityRendererProvider.Context) :
-    DynamicGeoEntityRenderer<ChaoEntity>(renderManager, ChaoModel())
-
-class ChaoRenderer(renderManager: EntityRendererProvider.Context) :
     DynamicGeoEntityRenderer<ChaoEntity>(renderManager, ChaoModel()) {
     override fun preRender(
         poseStack: PoseStack,
