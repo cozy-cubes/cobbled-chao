@@ -25,7 +25,8 @@ class ChaosDrive(private val stats: Map<ChaoStat.Companion.STATS, Int>) : Item(
         val leveledUp =
             stats.mapNotNull { (stat, value) -> if (chaoStats.boostStat(stat, value)) stat else null }.distinct()
 
-        livingEntity.statExpCooldown = 90
+        livingEntity.usedChaoDrive()
+        // TODO: Consume one from stack
 
         return super.interactLivingEntity(itemStack, player, livingEntity, interactionHand)
     }

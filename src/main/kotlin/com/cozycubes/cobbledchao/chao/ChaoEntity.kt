@@ -33,6 +33,7 @@ class ChaoEntity(entityType: EntityType<out PathfinderMob>, level: Level) : Path
     GeoEntity {
     companion object {
         val ATTRIBUTES = genericMovingAttribs.build()
+        val STAT_EXP_COOLDOWN = 90
     }
 
     var chaoStats: ChaoStats = ChaoStats()
@@ -127,4 +128,7 @@ class ChaoEntity(entityType: EntityType<out PathfinderMob>, level: Level) : Path
         statExpCooldown--
     }
 
+    fun usedChaoDrive() {
+        statExpCooldown = STAT_EXP_COOLDOWN
+    }
 }
