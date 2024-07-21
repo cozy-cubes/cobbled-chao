@@ -15,6 +15,8 @@ import net.minecraft.util.Mth
 import software.bernie.geckolib.animation.AnimationState
 import software.bernie.geckolib.cache.`object`.GeoBone
 import software.bernie.geckolib.model.DefaultedEntityGeoModel
+import software.bernie.geckolib.model.GeoModel
+import java.util.*
 
 class ChaoModel : DefaultedEntityGeoModel<ChaoEntity>(MODEL) {
     companion object {
@@ -34,7 +36,7 @@ class ChaoModel : DefaultedEntityGeoModel<ChaoEntity>(MODEL) {
         super.setCustomAnimations(chaoEntity, instanceId, animationState)
 
         try {
-            val ballBone: GeoBone = animationProcessor.getBone("chao_ball")
+            val ballBone: GeoBone = animationProcessor.getBone("ball_socket")
 
             val playerPos = Minecraft.getInstance().player?.position() ?: return
             val chaoPos = chaoEntity.position()
@@ -43,7 +45,22 @@ class ChaoModel : DefaultedEntityGeoModel<ChaoEntity>(MODEL) {
 
             ballBone.rotY = (Mth.atan2(diffVec.x, diffVec.z) + chaoEntity.yBodyRotO * Mth.DEG_TO_RAD).toFloat()
         } catch (e: Error) {
-            println("Could not find chao_ball bone.")
+            println("Could not find ball_socket bone.")
         }
+    }
+
+        override fun getBone(name: String): Optional<GeoBone> {
+        return super.getBone(name)
+    }
+}
+
+class BallModel : DefaultedEntityGeoModel<ChaoEntity>(MODEL) {
+    companion object {
+        val MODEL = modResource("chao/baby/chao_ball")
+        val TEXTURE: ResourceLocation = modResource("textures/entity/chao/baby/chao_ball.png")
+    }
+
+    override fun getTextureResource(animatable: ChaoEntity?): ResourceLocation {
+        return TEXTURE
     }
 }
