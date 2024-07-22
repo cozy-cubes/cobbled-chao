@@ -58,20 +58,20 @@ class SaplingBlock(properties: Properties) : Block(properties), BonemealableBloc
             }
         }
         if (nextAge == MAX_AGE) {
-            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).north(), TreeModule.LEADING_LEAVES)
-            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).east(), TreeModule.LEADING_LEAVES)
-            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).south(), TreeModule.LEADING_LEAVES)
-            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).west(), TreeModule.LEADING_LEAVES)
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).north(), TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState())
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).east(), TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState())
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).south(), TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState())
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).west(), TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState())
 
-            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).north(2), TreeModule.LEADING_LEAVES)
-            serverLevel.setBlockAndUpdate(blockPos.above(nextAge + 1).east(2), TreeModule.LEADING_LEAVES)
-            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).south(2), TreeModule.LEADING_LEAVES)
-            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).west(2), TreeModule.LEADING_LEAVES)
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).north(2), TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState())
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge + 1).east(2), TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState())
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).south(2), TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState())
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).west(2), TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState())
 
-            serverLevel.setBlockAndUpdate(blockPos.above(nextAge - 1).north(3), TreeModule.LEADING_LEAVES)
-            serverLevel.setBlockAndUpdate(blockPos.above(nextAge + 1).east(3), TreeModule.LEADING_LEAVES)
-            serverLevel.setBlockAndUpdate(blockPos.above(nextAge - 1).south(3), TreeModule.LEADING_LEAVES)
-            serverLevel.setBlockAndUpdate(blockPos.above(nextAge - 1).west(3), TreeModule.LEADING_LEAVES)
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge - 1).north(3), TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState())
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge + 1).east(3), TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState())
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge - 1).south(3), TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState())
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge - 1).west(3), TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState())
 
             serverLevel.setBlockAndUpdate(blockPos.above(nextAge-1).north(), TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH))
             serverLevel.setBlockAndUpdate(blockPos.above(nextAge-1).east(), TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, Direction.EAST))
@@ -79,7 +79,7 @@ class SaplingBlock(properties: Properties) : Block(properties), BonemealableBloc
             serverLevel.setBlockAndUpdate(blockPos.above(nextAge-1).west(), TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, Direction.WEST))
         } else {
             serverLevel.setBlockAndUpdate(
-                blockPos.above(nextAge + 1), TreeModule.LEADING_LEAVES
+                blockPos.above(nextAge + 1), TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState()
             )
         }
     }

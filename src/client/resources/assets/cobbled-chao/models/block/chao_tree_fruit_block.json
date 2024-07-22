@@ -7,8 +7,8 @@
 	"elements": [
 		{
 			"name": "garden_fruit1",
-			"from": [11, 12, 6],
-			"to": [15, 13, 10],
+			"from": [14, 12, 6],
+			"to": [18, 13, 10],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
 			"faces": {
 				"north": {"uv": [0, 7, 4, 8], "texture": "#0"},
@@ -20,8 +20,8 @@
 		},
 		{
 			"name": "garden_fruit2",
-			"from": [11, 6, 6],
-			"to": [15, 7, 10],
+			"from": [14, 6, 6],
+			"to": [18, 7, 10],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
 			"faces": {
 				"north": {"uv": [0, 7, 4, 8], "texture": "#0"},
@@ -33,8 +33,8 @@
 		},
 		{
 			"name": "garden_fruit2",
-			"from": [10, 7, 5],
-			"to": [16, 12, 11],
+			"from": [13, 7, 5],
+			"to": [19, 12, 11],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
 			"faces": {
 				"north": {"uv": [9, 5, 15, 10], "texture": "#0"},
@@ -46,8 +46,8 @@
 			}
 		},
 		{
-			"from": [13, 13, 8],
-			"to": [15, 14, 8],
+			"from": [16, 13, 8],
+			"to": [18, 14, 8],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
 			"faces": {
 				"north": {"uv": [13, 2, 15, 3], "texture": "#0"},
@@ -59,8 +59,8 @@
 			}
 		},
 		{
-			"from": [15, 15, 8],
-			"to": [16, 16, 8],
+			"from": [18, 15, 8],
+			"to": [19, 16, 8],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
 			"faces": {
 				"north": {"uv": [15, 0, 16, 1], "texture": "#0"},
@@ -72,8 +72,8 @@
 			}
 		},
 		{
-			"from": [14, 14, 8],
-			"to": [16, 15, 8],
+			"from": [17, 14, 8],
+			"to": [19, 15, 8],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
 			"faces": {
 				"north": {"uv": [14, 1, 16, 2], "texture": "#0"},

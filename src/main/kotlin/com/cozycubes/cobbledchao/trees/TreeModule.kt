@@ -17,7 +17,6 @@ import net.minecraft.world.level.material.MapColor
 import net.minecraft.world.level.material.PushReaction
 
 object TreeModule {
-    val LEADING_LEAVES: BlockState = Blocks.OAK_LEAVES.defaultBlockState().setValue(LeavesBlock.PERSISTENT, true)
     val CHAO_TREE_SEED = SeedBlock(
         BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak()
             .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
@@ -32,12 +31,16 @@ object TreeModule {
         BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().strength(0.2f, 3.0f).sound(SoundType.WOOD)
             .noOcclusion().pushReaction(PushReaction.DESTROY)
     )
+    val CHAO_TREE_LEAVES_BLOCK = LeafBlock(
+        BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LEAVES)
+    )
 
     fun registerAll() {
         registerBlock(CHAO_TREE_SEED, "chao_tree_seed")
         registerBlock(CHAO_TREE_SAPLING, "chao_tree_sapling", noItem = true)
         registerBlock(CHAO_TREE_TRUNK, "chao_tree_trunk", noItem = true)
         registerBlock(CHAO_TREE_FRUIT_BLOCK, "chao_tree_fruit_block", noItem = true)
+        registerBlock(CHAO_TREE_LEAVES_BLOCK, "chao_tree_leaves", noItem = true)
     }
 
     fun registerBlock(

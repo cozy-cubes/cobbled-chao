@@ -37,7 +37,7 @@ class SeedBlock(properties: Properties) : Block(properties), BonemealableBlock {
 
     fun grow(serverLevel: ServerLevel, blockPos: BlockPos) {
         serverLevel.setBlock(blockPos, TreeModule.CHAO_TREE_SAPLING.defaultBlockState(), 2)
-        serverLevel.setBlockAndUpdate(blockPos.above(), TreeModule.LEADING_LEAVES)
+        serverLevel.setBlockAndUpdate(blockPos.above(), TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState())
     }
 
     override fun getShape(
