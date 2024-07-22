@@ -35,10 +35,32 @@ class SaplingBlock(properties: Properties) : Block(properties) {
         serverLevel.setBlockAndUpdate(
             blockPos, defaultBlockState().setValue(AGE, nextAge).setValue(SIZE, min(nextAge, MAX_SIZE))
         )
-        for (i in 1..min(MAX_SIZE, nextAge - 1)) {
+        if (nextAge - 1 <= MAX_SIZE) {
+            for (i in 1..<nextAge) {
+                serverLevel.setBlockAndUpdate(
+                    blockPos.above(i),
+                    TreeModule.CHAO_TREE_TRUNK.defaultBlockState().setValue(TrunkBlock.SIZE, min(nextAge, MAX_SIZE) - i)
+                )
+            }
+        }
+        if (nextAge == MAX_AGE) {
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).north(), TreeModule.LEADING_LEAVES)
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).east(), TreeModule.LEADING_LEAVES)
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).south(), TreeModule.LEADING_LEAVES)
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).west(), TreeModule.LEADING_LEAVES)
+
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).north(2), TreeModule.LEADING_LEAVES)
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge + 1).east(2), TreeModule.LEADING_LEAVES)
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).south(2), TreeModule.LEADING_LEAVES)
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge).west(2), TreeModule.LEADING_LEAVES)
+
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge - 1).north(3), TreeModule.LEADING_LEAVES)
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge + 1).east(3), TreeModule.LEADING_LEAVES)
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge - 1).south(3), TreeModule.LEADING_LEAVES)
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge - 1).west(3), TreeModule.LEADING_LEAVES)
+        } else {
             serverLevel.setBlockAndUpdate(
-                blockPos.above(i),
-                TreeModule.CHAO_TREE_TRUNK.defaultBlockState().setValue(TrunkBlock.SIZE, min(nextAge, MAX_SIZE) - i)
+                blockPos.above(nextAge + 1), TreeModule.LEADING_LEAVES
             )
         }
     }

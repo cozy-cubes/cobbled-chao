@@ -28,6 +28,7 @@ class SeedBlock(properties: Properties) : Block(properties) {
             ) == 0
         ) {
             serverLevel.setBlock(blockPos, TreeModule.CHAO_TREE_SAPLING.defaultBlockState(), 2)
+            serverLevel.setBlockAndUpdate(blockPos.above(), TreeModule.LEADING_LEAVES)
         }
     }
 
