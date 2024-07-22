@@ -1,9 +1,11 @@
 package com.cozycubes.cobbledchao.trees
 
 import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.RandomSource
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.IntegerProperty
@@ -11,6 +13,7 @@ import net.minecraft.world.level.block.state.properties.Property
 import kotlin.math.min
 
 class SaplingBlock(properties: Properties) : Block(properties) {
+    // TODO: Datapack this for multiple trees and custom trees.
     companion object {
         val MAX_AGE = 6
         val MAX_SIZE = 2
@@ -31,6 +34,7 @@ class SaplingBlock(properties: Properties) : Block(properties) {
     ) {
         val age = blockState.getValue(AGE)
         val nextAge = age + 1
+        // TODO: Make sure these aren't already blocks, and if they are, don't do anything.
         serverLevel.setBlockAndUpdate(blockPos.above(nextAge), TreeModule.CHAO_TREE_TRUNK.defaultBlockState())
         serverLevel.setBlockAndUpdate(
             blockPos, defaultBlockState().setValue(AGE, nextAge).setValue(SIZE, min(nextAge, MAX_SIZE))
@@ -58,6 +62,11 @@ class SaplingBlock(properties: Properties) : Block(properties) {
             serverLevel.setBlockAndUpdate(blockPos.above(nextAge + 1).east(3), TreeModule.LEADING_LEAVES)
             serverLevel.setBlockAndUpdate(blockPos.above(nextAge - 1).south(3), TreeModule.LEADING_LEAVES)
             serverLevel.setBlockAndUpdate(blockPos.above(nextAge - 1).west(3), TreeModule.LEADING_LEAVES)
+
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge-1).north(), TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH))
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge-1).east(), TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, Direction.EAST))
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge-1).south(), TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, Direction.SOUTH))
+            serverLevel.setBlockAndUpdate(blockPos.above(nextAge-1).west(), TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, Direction.WEST))
         } else {
             serverLevel.setBlockAndUpdate(
                 blockPos.above(nextAge + 1), TreeModule.LEADING_LEAVES

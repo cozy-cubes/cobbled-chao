@@ -28,11 +28,16 @@ object TreeModule {
     val CHAO_TREE_TRUNK = TrunkBlock(
         BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).sound(SoundType.WOOD).noOcclusion()
     )
+    val CHAO_TREE_FRUIT_BLOCK = FruitBlock(
+        BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().strength(0.2f, 3.0f).sound(SoundType.WOOD)
+            .noOcclusion().pushReaction(PushReaction.DESTROY)
+    )
 
     fun registerAll() {
         registerBlock(CHAO_TREE_SEED, "chao_tree_seed")
         registerBlock(CHAO_TREE_SAPLING, "chao_tree_sapling", noItem = true)
-        registerBlock(CHAO_TREE_TRUNK, "chao_tree_trunk", noItem = false)
+        registerBlock(CHAO_TREE_TRUNK, "chao_tree_trunk", noItem = true)
+        registerBlock(CHAO_TREE_FRUIT_BLOCK, "chao_tree_fruit_block", noItem = true)
     }
 
     fun registerBlock(
