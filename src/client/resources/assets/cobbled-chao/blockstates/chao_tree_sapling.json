@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "size=0": {
+      "model": "cobbled-chao:block/chao_tree_trunk0"
+    },
+    "size=1": {
+      "model": "cobbled-chao:block/chao_tree_trunk1"
+    },
+    "size=2": {
+      "model": "cobbled-chao:block/chao_tree_trunk2"
+    }
+  }
+}

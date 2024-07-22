@@ -9,6 +9,7 @@ package com.cozycubes.cobbledchao
 
 import com.cozycubes.cobbledchao.chao.ChaoModule
 import com.cozycubes.cobbledchao.chaosdrive.ChaosDriveModule
+import com.cozycubes.cobbledchao.trees.TreeModule
 import net.fabricmc.api.ModInitializer
 import net.minecraft.resources.ResourceLocation
 import org.slf4j.LoggerFactory
@@ -21,6 +22,7 @@ object CobbledChao : ModInitializer {
         logger.info("cobbled-chao loading")
         ChaoModule.registerAll()
         ChaosDriveModule.registerAll()
+        TreeModule.registerAll()
     }
 
     fun modResource(name: String): ResourceLocation {

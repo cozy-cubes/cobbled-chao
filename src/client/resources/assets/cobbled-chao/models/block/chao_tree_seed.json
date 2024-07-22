@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "cobbled-chao:block/chao_tree_seed"
+  }
+}

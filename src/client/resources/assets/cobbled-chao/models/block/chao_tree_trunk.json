@@ -1,0 +1,6 @@
+{
+  "textures": {
+    "vert": "minecraft:block/oak_log_top",
+    "side": "minecraft:block/oak_log"
+  }
+}
