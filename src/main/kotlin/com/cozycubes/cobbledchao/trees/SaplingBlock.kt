@@ -12,6 +12,8 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty
 import net.minecraft.world.level.block.state.properties.Property
 import kotlin.math.min
 
+// TODO: Make bonemealable. Advance one stage.
+// TODO: If broken, break all blocks in tree.
 class SaplingBlock(properties: Properties) : Block(properties) {
     // TODO: Datapack this for multiple trees and custom trees.
     companion object {
