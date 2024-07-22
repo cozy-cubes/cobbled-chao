@@ -4,7 +4,10 @@ import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.RandomSource
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.BonemealableBlock
 import net.minecraft.world.level.block.HorizontalDirectionalBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
@@ -12,9 +15,9 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty
 import net.minecraft.world.level.block.state.properties.Property
 import kotlin.math.min
 
-// TODO: Make bonemealable. Advance one stage.
 // TODO: If broken, break all blocks in tree.
-class SaplingBlock(properties: Properties) : Block(properties) {
+// TODO: Continue to age until death if relevant to this tree.
+class SaplingBlock(properties: Properties) : Block(properties), BonemealableBlock {
     // TODO: Datapack this for multiple trees and custom trees.
     companion object {
         val MAX_AGE = 6
@@ -34,6 +37,11 @@ class SaplingBlock(properties: Properties) : Block(properties) {
     override fun randomTick(
         blockState: BlockState, serverLevel: ServerLevel, blockPos: BlockPos, randomSource: RandomSource
     ) {
+        // TODO: Chance to grow on tick instead of guaranteed.
+        grow(serverLevel, blockState, blockPos)
+    }
+
+    fun grow(serverLevel: ServerLevel, blockState: BlockState, blockPos: BlockPos) {
         val age = blockState.getValue(AGE)
         val nextAge = age + 1
         // TODO: Make sure these aren't already blocks, and if they are, don't do anything.
@@ -77,4 +85,22 @@ class SaplingBlock(properties: Properties) : Block(properties) {
     }
 
     override fun isRandomlyTicking(blockState: BlockState): Boolean = blockState.getValue(AGE) < MAX_AGE
+
+    override fun isValidBonemealTarget(levelReader: LevelReader, blockPos: BlockPos, blockState: BlockState): Boolean = blockState.getValue(AGE) < MAX_AGE
+
+    override fun isBonemealSuccess(
+        level: Level,
+        randomSource: RandomSource,
+        blockPos: BlockPos,
+        blockState: BlockState
+    ): Boolean = true
+
+    override fun performBonemeal(
+        serverLevel: ServerLevel,
+        randomSource: RandomSource,
+        blockPos: BlockPos,
+        blockState: BlockState
+    ) {
+        grow(serverLevel, blockState, blockPos)
+    }
 }

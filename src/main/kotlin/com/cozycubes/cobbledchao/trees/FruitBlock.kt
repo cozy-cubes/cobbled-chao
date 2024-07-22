@@ -8,6 +8,9 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.Property
 
+// TODO: Drop item similar to cocoa block logic.
+// TODO: Make bonemealable.
+// TODO: Add growth stages.
 class FruitBlock(properties: Properties) : HorizontalDirectionalBlock(properties) {
     companion object {
         val CODEC = simpleCodec(::FruitBlock)
