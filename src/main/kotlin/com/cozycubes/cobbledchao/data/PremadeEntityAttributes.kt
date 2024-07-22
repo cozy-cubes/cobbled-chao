@@ -5,7 +5,7 @@
  * If a copy of the MIT was not distributed with this
  * file, You can obtain one at https://opensource.org/licenses/MIT.
  */
-package com.cozycubes.cobbledchao.util
+package com.cozycubes.cobbledchao.data
 
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier

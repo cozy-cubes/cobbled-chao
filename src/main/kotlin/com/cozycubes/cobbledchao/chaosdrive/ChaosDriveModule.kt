@@ -11,22 +11,29 @@ import com.cozycubes.cobbledchao.CobbledChao.modResource
 import com.cozycubes.cobbledchao.chao.ChaoStat
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.world.item.Item
 
 object ChaosDriveModule {
     // TODO: Make datapackable.
-    val YELLOW_DRIVE = ChaosDrive(mapOf(
-        ChaoStat.Companion.STATS.SWIM to 24
-    ))
-    val PURPLE_DRIVE = ChaosDrive(mapOf(
-        ChaoStat.Companion.STATS.FLY to 24
-    ))
-    val GREEN_DRIVE = ChaosDrive(mapOf(
-        ChaoStat.Companion.STATS.RUN to 24
-    ))
-    val RED_DRIVE = ChaosDrive(mapOf(
-        ChaoStat.Companion.STATS.POWER to 24
-    ))
+    val YELLOW_DRIVE = ChaosDrive(
+        mapOf(
+            ChaoStat.Companion.STATS.SWIM to 24
+        )
+    )
+    val PURPLE_DRIVE = ChaosDrive(
+        mapOf(
+            ChaoStat.Companion.STATS.FLY to 24
+        )
+    )
+    val GREEN_DRIVE = ChaosDrive(
+        mapOf(
+            ChaoStat.Companion.STATS.RUN to 24
+        )
+    )
+    val RED_DRIVE = ChaosDrive(
+        mapOf(
+            ChaoStat.Companion.STATS.POWER to 24
+        )
+    )
 
     fun registerAll() {
         Registry.register(BuiltInRegistries.ITEM, modResource("green_drive"), GREEN_DRIVE)

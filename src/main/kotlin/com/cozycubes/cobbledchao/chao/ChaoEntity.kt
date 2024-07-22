@@ -10,10 +10,10 @@ package com.cozycubes.cobbledchao.chao
 import com.cozycubes.cobbledchao.CobbledChao.logger
 import com.cozycubes.cobbledchao.chaosdrive.ChaosDriveTags
 import com.cozycubes.cobbledchao.data.NbtKeys
+import com.cozycubes.cobbledchao.data.PremadeEntityAttributes.genericMovingAttribs
 import com.cozycubes.cobbledchao.extensions.possibleCompound
 import com.cozycubes.cobbledchao.network.Network
 import com.cozycubes.cobbledchao.network.ParticlePayload
-import com.cozycubes.cobbledchao.util.PremadeEntityAttributes.genericMovingAttribs
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.core.particles.SimpleParticleType
 import net.minecraft.nbt.CompoundTag

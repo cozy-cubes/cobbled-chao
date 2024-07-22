@@ -12,8 +12,8 @@ import com.cozycubes.cobbledchao.client.network.ClientNetwork
 import net.fabricmc.api.ClientModInitializer
 
 object CobbledChaoClient : ClientModInitializer {
-	override fun onInitializeClient() {
-		ClientChaoModule.registerAll()
-		ClientNetwork.init()
-	}
+    override fun onInitializeClient() {
+        ClientChaoModule.registerAll()
+        ClientNetwork.init()
+    }
 }
