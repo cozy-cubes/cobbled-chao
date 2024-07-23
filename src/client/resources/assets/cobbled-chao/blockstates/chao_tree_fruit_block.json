@@ -1,19 +1,164 @@
 {
-  "variants": {
-    "facing=north": {
-      "model": "cobbled-chao:block/chao_tree_fruit_block",
-      "y": 180
+  "multipart": [
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_fruit_block0",
+        "y": 180
+      },
+      "when": {
+        "age": 0,
+        "facing": "north"
+      }
     },
-    "facing=east": {
-      "model": "cobbled-chao:block/chao_tree_fruit_block",
-      "y": 270
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_fruit_block0",
+        "y": 270
+      },
+      "when": {
+        "age": 0,
+        "facing": "east"
+      }
     },
-    "facing=south": {
-      "model": "cobbled-chao:block/chao_tree_fruit_block"
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_fruit_block0",
+        "y": 0
+      },
+      "when": {
+        "age": 0,
+        "facing": "south"
+      }
     },
-    "facing=west": {
-      "model": "cobbled-chao:block/chao_tree_fruit_block",
-      "y": 90
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_fruit_block0",
+        "y": 90
+      },
+      "when": {
+        "age": 0,
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_fruit_block1",
+        "y": 180
+      },
+      "when": {
+        "age": 1,
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_fruit_block1",
+        "y": 270
+      },
+      "when": {
+        "age": 1,
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_fruit_block1",
+        "y": 0
+      },
+      "when": {
+        "age": 1,
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_fruit_block1",
+        "y": 90
+      },
+      "when": {
+        "age": 1,
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_fruit_block2",
+        "y": 180
+      },
+      "when": {
+        "age": 2,
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_fruit_block2",
+        "y": 270
+      },
+      "when": {
+        "age": 2,
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_fruit_block2",
+        "y": 0
+      },
+      "when": {
+        "age": 2,
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_fruit_block2",
+        "y": 90
+      },
+      "when": {
+        "age": 2,
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_fruit_block3",
+        "y": 180
+      },
+      "when": {
+        "age": 3,
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_fruit_block3",
+        "y": 270
+      },
+      "when": {
+        "age": 3,
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_fruit_block3",
+        "y": 0
+      },
+      "when": {
+        "age": 3,
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_fruit_block3",
+        "y": 90
+      },
+      "when": {
+        "age": 3,
+        "facing": "west"
+      }
     }
-  }
+  ]
 }
