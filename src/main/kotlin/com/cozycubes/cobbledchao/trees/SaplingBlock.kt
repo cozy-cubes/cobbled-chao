@@ -1,5 +1,13 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package com.cozycubes.cobbledchao.trees
 
+import com.cozycubes.cobbledchao.trees.Properties.D_CONNECT
+import com.cozycubes.cobbledchao.trees.Properties.E_CONNECT
+import com.cozycubes.cobbledchao.trees.Properties.N_CONNECT
+import com.cozycubes.cobbledchao.trees.Properties.S_CONNECT
+import com.cozycubes.cobbledchao.trees.Properties.U_CONNECT
+import com.cozycubes.cobbledchao.trees.Properties.W_CONNECT
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.RandomSource
@@ -18,26 +26,47 @@ import net.minecraft.world.level.block.state.properties.Property
 class SaplingBlock(properties: Properties) : Block(properties), BonemealableBlock {
     // TODO: Datapack this for multiple trees and custom trees.
     companion object {
-        val MAX_AGE = 5
-        val MAX_SIZE = 2
-        val AGE = IntegerProperty.create("age", 0, MAX_AGE)
-        val SIZE = IntegerProperty.create("size", 0, MAX_SIZE)
+        const val MAX_AGE = 5
+        const val MAX_SIZE = 2
+        val AGE: IntegerProperty = IntegerProperty.create("age", 0, MAX_AGE)
+        val SIZE: IntegerProperty = IntegerProperty.create("size", 0, MAX_SIZE)
     }
 
     init {
-        registerDefaultState(stateDefinition.any().setValue(AGE, 0).setValue(SIZE, 0))
+        registerDefaultState(
+            stateDefinition.any()
+                .setValue(AGE, 0)
+                .setValue(SIZE, 0)
+                .setValue(U_CONNECT, false)
+                .setValue(D_CONNECT, false)
+                .setValue(N_CONNECT, false)
+                .setValue(E_CONNECT, false)
+                .setValue(S_CONNECT, false)
+                .setValue(W_CONNECT, false)
+        )
     }
 
+    // TODO: Abstract and datapack.
     fun getGrowthStages(): List<Map<BlockPos, BlockState>> {
         return listOf<Map<BlockPos, BlockState>>(
             mapOf(
                 BlockPos(0, 0, 0) to TreeModule.CHAO_TREE_SAPLING.defaultBlockState()
                     .setValue(SIZE, 1)
-                    .setValue(AGE, 1),
+                    .setValue(AGE, 1)
+                    .setValue(U_CONNECT, true)
+                    .setValue(D_CONNECT, true),
                 BlockPos(0, 1, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
-                    .setValue(TrunkBlock.SIZE, 0),
+                    .setValue(TrunkBlock.SIZE, 0)
+                    .setValue(U_CONNECT, true)
+                    .setValue(D_CONNECT, true),
                 BlockPos(0, 2, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
-                    .setValue(TrunkBlock.SIZE, 0),
+                    .setValue(TrunkBlock.SIZE, 0)
+                    .setValue(U_CONNECT, true)
+                    .setValue(D_CONNECT, true)
+                    .setValue(N_CONNECT, true)
+                    .setValue(E_CONNECT, true)
+                    .setValue(S_CONNECT, true)
+                    .setValue(W_CONNECT, true),
 
                 BlockPos(1, 2, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
                 BlockPos(-1, 2, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
@@ -47,10 +76,23 @@ class SaplingBlock(properties: Properties) : Block(properties), BonemealableBloc
             mapOf(
                 BlockPos(0, 0, 0) to TreeModule.CHAO_TREE_SAPLING.defaultBlockState()
                     .setValue(SIZE, 2)
-                    .setValue(AGE, 2),
-                BlockPos(0, 1, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState().setValue(TrunkBlock.SIZE, 1),
-                BlockPos(0, 2, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState(),
-                BlockPos(0, 3, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState(),
+                    .setValue(AGE, 2)
+                    .setValue(U_CONNECT, true)
+                    .setValue(D_CONNECT, true),
+                BlockPos(0, 1, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
+                    .setValue(TrunkBlock.SIZE, 1)
+                    .setValue(U_CONNECT, true)
+                    .setValue(D_CONNECT, true),
+                BlockPos(0, 2, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
+                    .setValue(U_CONNECT, true)
+                    .setValue(D_CONNECT, true),
+                BlockPos(0, 3, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
+                    .setValue(U_CONNECT, true)
+                    .setValue(D_CONNECT, true)
+                    .setValue(N_CONNECT, true)
+                    .setValue(E_CONNECT, true)
+                    .setValue(S_CONNECT, true)
+                    .setValue(W_CONNECT, true),
 
                 BlockPos(1, 2, 0) to Blocks.AIR.defaultBlockState(),
                 BlockPos(-1, 2, 0) to Blocks.AIR.defaultBlockState(),
@@ -65,11 +107,26 @@ class SaplingBlock(properties: Properties) : Block(properties), BonemealableBloc
             mapOf(
                 BlockPos(0, 0, 0) to TreeModule.CHAO_TREE_SAPLING.defaultBlockState()
                     .setValue(SIZE, 2)
-                    .setValue(AGE, 3),
-                BlockPos(0, 1, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState().setValue(TrunkBlock.SIZE, 1),
-                BlockPos(0, 2, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState(),
-                BlockPos(0, 3, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState(),
-                BlockPos(0, 4, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState(),
+                    .setValue(AGE, 3)
+                    .setValue(U_CONNECT, true)
+                    .setValue(D_CONNECT, true),
+                BlockPos(0, 1, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
+                    .setValue(TrunkBlock.SIZE, 1)
+                    .setValue(U_CONNECT, true)
+                    .setValue(D_CONNECT, true),
+                BlockPos(0, 2, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
+                    .setValue(U_CONNECT, true)
+                    .setValue(D_CONNECT, true),
+                BlockPos(0, 3, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
+                    .setValue(U_CONNECT, true)
+                    .setValue(D_CONNECT, true),
+                BlockPos(0, 4, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
+                    .setValue(U_CONNECT, true)
+                    .setValue(D_CONNECT, true)
+                    .setValue(N_CONNECT, true)
+                    .setValue(E_CONNECT, true)
+                    .setValue(S_CONNECT, true)
+                    .setValue(W_CONNECT, true),
 
                 BlockPos(1, 3, 0) to Blocks.AIR.defaultBlockState(),
                 BlockPos(-1, 3, 0) to Blocks.AIR.defaultBlockState(),
@@ -89,8 +146,19 @@ class SaplingBlock(properties: Properties) : Block(properties), BonemealableBloc
             mapOf(
                 BlockPos(0, 0, 0) to TreeModule.CHAO_TREE_SAPLING.defaultBlockState()
                     .setValue(SIZE, 2)
-                    .setValue(AGE, 4),
-                BlockPos(0, 5, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState(),
+                    .setValue(AGE, 4)
+                    .setValue(U_CONNECT, true)
+                    .setValue(D_CONNECT, true),
+                BlockPos(0, 4, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
+                    .setValue(U_CONNECT, true)
+                    .setValue(D_CONNECT, true),
+                BlockPos(0, 5, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
+                    .setValue(U_CONNECT, true)
+                    .setValue(D_CONNECT, true)
+                    .setValue(N_CONNECT, true)
+                    .setValue(E_CONNECT, true)
+                    .setValue(S_CONNECT, true)
+                    .setValue(W_CONNECT, true),
 
                 BlockPos(1, 4, 0) to Blocks.AIR.defaultBlockState(),
                 BlockPos(-1, 4, 0) to Blocks.AIR.defaultBlockState(),
@@ -115,8 +183,19 @@ class SaplingBlock(properties: Properties) : Block(properties), BonemealableBloc
             mapOf(
                 BlockPos(0, 0, 0) to TreeModule.CHAO_TREE_SAPLING.defaultBlockState()
                     .setValue(SIZE, 2)
-                    .setValue(AGE, 5),
-                BlockPos(0, 6, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState(),
+                    .setValue(AGE, 5)
+                    .setValue(U_CONNECT, true)
+                    .setValue(D_CONNECT, true),
+                BlockPos(0, 5, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
+                    .setValue(U_CONNECT, true)
+                    .setValue(D_CONNECT, true),
+                BlockPos(0, 6, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
+                    .setValue(U_CONNECT, true)
+                    .setValue(D_CONNECT, true)
+                    .setValue(N_CONNECT, true)
+                    .setValue(E_CONNECT, true)
+                    .setValue(S_CONNECT, true)
+                    .setValue(W_CONNECT, true),
 
                 BlockPos(1, 5, 0) to Blocks.AIR.defaultBlockState(),
                 BlockPos(-1, 5, 0) to Blocks.AIR.defaultBlockState(),
@@ -147,7 +226,7 @@ class SaplingBlock(properties: Properties) : Block(properties), BonemealableBloc
     }
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
-        builder.add(*arrayOf<Property<*>>(AGE, SIZE))
+        builder.add(*arrayOf<Property<*>>(AGE, SIZE, U_CONNECT, D_CONNECT, N_CONNECT, E_CONNECT, S_CONNECT, W_CONNECT))
     }
 
     override fun randomTick(

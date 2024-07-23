@@ -1,13 +1,229 @@
 {
-  "variants": {
-    "size=0": {
-      "model": "cobbled-chao:block/chao_tree_trunk0"
+  "multipart": [
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk0"
+      },
+      "when": {
+        "size": 0
+      }
     },
-    "size=1": {
-      "model": "cobbled-chao:block/chao_tree_trunk1"
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk1"
+      },
+      "when": {
+        "size": 1
+      }
     },
-    "size=2": {
-      "model": "cobbled-chao:block/chao_tree_trunk2"
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk2"
+      },
+      "when": {
+        "size": 2
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk_connector0",
+        "uvlock": true,
+        "x": 180
+      },
+      "when": {
+        "size": 0,
+        "up": true
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk_connector0",
+        "uvlock": true
+      },
+      "when": {
+        "size": 0,
+        "down": true
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk_connector0",
+        "uvlock": true,
+        "x": 270
+      },
+      "when": {
+        "size": 0,
+        "north": true
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk_connector0",
+        "uvlock": true,
+        "x": 90
+      },
+      "when": {
+        "size": 0,
+        "south": true
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk_connector0",
+        "uvlock": true,
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "size": 0,
+        "east": true
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk_connector0",
+        "uvlock": true,
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "size": 0,
+        "west": true
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk_connector1",
+        "uvlock": true,
+        "x": 180
+      },
+      "when": {
+        "size": 1,
+        "up": true
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk_connector1",
+        "uvlock": true
+      },
+      "when": {
+        "size": 1,
+        "down": true
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk_connector1",
+        "uvlock": true,
+        "x": 270
+      },
+      "when": {
+        "size": 1,
+        "north": true
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk_connector1",
+        "uvlock": true,
+        "x": 90
+      },
+      "when": {
+        "size": 1,
+        "south": true
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk_connector1",
+        "uvlock": true,
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "size": 1,
+        "east": true
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk_connector1",
+        "uvlock": true,
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "size": 1,
+        "west": true
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk_connector2",
+        "uvlock": true,
+        "x": 180
+      },
+      "when": {
+        "size": 2,
+        "up": true
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk_connector2",
+        "uvlock": true
+      },
+      "when": {
+        "size": 2,
+        "down": true
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk_connector2",
+        "uvlock": true,
+        "x": 270
+      },
+      "when": {
+        "size": 2,
+        "north": true
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk_connector2",
+        "uvlock": true,
+        "x": 90
+      },
+      "when": {
+        "size": 2,
+        "south": true
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk_connector2",
+        "uvlock": true,
+        "x": 90,
+        "y": 270
+      },
+      "when": {
+        "size": 2,
+        "east": true
+      }
+    },
+    {
+      "apply": {
+        "model": "cobbled-chao:block/chao_tree_trunk_connector2",
+        "uvlock": true,
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "size": 2,
+        "west": true
+      }
     }
-  }
+  ]
 }
