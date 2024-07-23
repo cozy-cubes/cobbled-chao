@@ -37,7 +37,7 @@ class SeedBlock(properties: Properties) : Block(properties), BonemealableBlock {
 
     fun grow(serverLevel: ServerLevel, blockPos: BlockPos) {
         serverLevel.setBlock(blockPos, TreeModule.CHAO_TREE_SAPLING.defaultBlockState(), 2)
-        serverLevel.setBlockAndUpdate(blockPos.above(), TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState())
+        TreeModule.CHAO_TREE_SAPLING.performBonemeal(serverLevel, serverLevel.random, blockPos, TreeModule.CHAO_TREE_SAPLING.defaultBlockState())
     }
 
     override fun getShape(
@@ -45,11 +45,10 @@ class SeedBlock(properties: Properties) : Block(properties), BonemealableBlock {
         blockGetter: BlockGetter,
         blockPos: BlockPos,
         collisionContext: CollisionContext
-    ): VoxelShape {
-        return SHAPE
-    }
+    ): VoxelShape = SHAPE
 
-    override fun isValidBonemealTarget(levelReader: LevelReader, blockPos: BlockPos, blockState: BlockState): Boolean = true
+    override fun isValidBonemealTarget(levelReader: LevelReader, blockPos: BlockPos, blockState: BlockState): Boolean =
+        true
 
     override fun isBonemealSuccess(
         level: Level,
