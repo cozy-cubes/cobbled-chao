@@ -9,6 +9,7 @@ import com.cozycubes.cobbledchao.trees.Properties.S_CONNECT
 import com.cozycubes.cobbledchao.trees.Properties.U_CONNECT
 import com.cozycubes.cobbledchao.trees.Properties.W_CONNECT
 import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.RandomSource
 import net.minecraft.world.level.Level
@@ -16,6 +17,7 @@ import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.BonemealableBlock
+import net.minecraft.world.level.block.HorizontalDirectionalBlock.FACING
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.IntegerProperty
@@ -197,11 +199,6 @@ class SaplingBlock(properties: Properties) : Block(properties), BonemealableBloc
                     .setValue(S_CONNECT, true)
                     .setValue(W_CONNECT, true),
 
-                BlockPos(1, 5, 0) to Blocks.AIR.defaultBlockState(),
-                BlockPos(-1, 5, 0) to Blocks.AIR.defaultBlockState(),
-                BlockPos(0, 5, 1) to Blocks.AIR.defaultBlockState(),
-                BlockPos(0, 5, -1) to Blocks.AIR.defaultBlockState(),
-
                 BlockPos(2, 6, 0) to Blocks.AIR.defaultBlockState(),
                 BlockPos(-2, 4, 0) to Blocks.AIR.defaultBlockState(),
                 BlockPos(0, 4, 2) to Blocks.AIR.defaultBlockState(),
@@ -221,6 +218,11 @@ class SaplingBlock(properties: Properties) : Block(properties), BonemealableBloc
                 BlockPos(-3, 5, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
                 BlockPos(0, 5, 3) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
                 BlockPos(0, 5, -3) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
+
+                BlockPos(1, 5, 0) to TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState().setValue(FACING, Direction.EAST),
+                BlockPos(-1, 5, 0) to TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState().setValue(FACING, Direction.WEST),
+                BlockPos(0, 5, 1) to TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState().setValue(FACING, Direction.SOUTH),
+                BlockPos(0, 5, -1) to TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState().setValue(FACING, Direction.NORTH),
             )
         )
     }

@@ -2,18 +2,18 @@
   "variants": {
     "facing=north": {
       "model": "cobbled-chao:block/chao_tree_fruit_block",
-      "y": 90
+      "y": 180
     },
     "facing=east": {
       "model": "cobbled-chao:block/chao_tree_fruit_block",
-      "y": 180
-    },
-    "facing=south": {
-      "model": "cobbled-chao:block/chao_tree_fruit_block",
       "y": 270
     },
-    "facing=west": {
+    "facing=south": {
       "model": "cobbled-chao:block/chao_tree_fruit_block"
+    },
+    "facing=west": {
+      "model": "cobbled-chao:block/chao_tree_fruit_block",
+      "y": 90
     }
   }
 }

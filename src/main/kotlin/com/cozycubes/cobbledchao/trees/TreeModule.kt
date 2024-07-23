@@ -22,14 +22,14 @@ object TreeModule {
             .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
     )
     val CHAO_TREE_SAPLING = SaplingBlock(
-        BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().sound(SoundType.WOOD).noOcclusion()
+        BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().sound(SoundType.WOOD).noOcclusion().isViewBlocking { _, _, _ -> false }
     )
     val CHAO_TREE_TRUNK = TrunkBlock(
-        BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).sound(SoundType.WOOD).noOcclusion()
+        BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).sound(SoundType.WOOD).noOcclusion().isViewBlocking { _, _, _ -> false }.dynamicShape()
     )
     val CHAO_TREE_FRUIT_BLOCK = FruitBlock(
         BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().strength(0.2f, 3.0f).sound(SoundType.WOOD)
-            .noOcclusion().pushReaction(PushReaction.DESTROY)
+            .noOcclusion().pushReaction(PushReaction.DESTROY).isViewBlocking { _, _, _ -> false }.dynamicShape()
     )
     val CHAO_TREE_LEAVES_BLOCK = LeafBlock(
         BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LEAVES)
