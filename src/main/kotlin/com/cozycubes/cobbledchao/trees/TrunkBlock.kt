@@ -13,7 +13,6 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty
 import net.minecraft.world.level.block.state.properties.Property
 
 // TODO: If broken, break all blocks in tree.
-// TODO: Connect to nearby leaves blocks horizontally.
 class TrunkBlock(properties: Properties) : Block(properties) {
     companion object {
         val SIZE: IntegerProperty = IntegerProperty.create("size", 0, 2)

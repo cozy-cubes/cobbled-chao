@@ -3,6 +3,8 @@
 package com.cozycubes.cobbledchao.trees
 
 import com.cozycubes.cobbledchao.CobbledChao.modResource
+import com.cozycubes.cobbledchao.chao.ChaoStat
+import com.cozycubes.cobbledchao.chaosdrive.ChaosDrive
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.item.BlockItem
@@ -34,6 +36,11 @@ object TreeModule {
     val CHAO_TREE_LEAVES_BLOCK = LeafBlock(
         BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LEAVES)
     )
+    val CHAO_TREE_FRUIT = ChaosDrive(
+        mapOf(
+            ChaoStat.Companion.STATS.STAMINA to 40
+        )
+    )
 
     fun registerAll() {
         registerBlock(CHAO_TREE_SEED, "chao_tree_seed")
@@ -41,6 +48,8 @@ object TreeModule {
         registerBlock(CHAO_TREE_TRUNK, "chao_tree_trunk", noItem = true)
         registerBlock(CHAO_TREE_FRUIT_BLOCK, "chao_tree_fruit_block", noItem = true)
         registerBlock(CHAO_TREE_LEAVES_BLOCK, "chao_tree_leaves", noItem = true)
+
+        registerItem(CHAO_TREE_FRUIT, "chao_tree_fruit")
     }
 
     fun registerBlock(
@@ -50,5 +59,9 @@ object TreeModule {
         if (!noItem) {
             Registry.register(BuiltInRegistries.ITEM, modResource(name), BlockItem(block, itemProperties))
         }
+    }
+
+    fun registerItem(item: Item, name: String) {
+        Registry.register(BuiltInRegistries.ITEM, modResource(name), item)
     }
 }
