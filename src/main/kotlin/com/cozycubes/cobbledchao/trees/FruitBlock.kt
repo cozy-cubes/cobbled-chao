@@ -115,7 +115,7 @@ class FruitBlock(properties: Properties) : HorizontalDirectionalBlock(properties
         if (interactionHand != InteractionHand.MAIN_HAND || level.isClientSide || blockState.getValue(AGE) < MAX_AGE) {
             return super.useItemOn(itemStack, blockState, level, blockPos, player, interactionHand, blockHitResult)
         }
-        harvest(level as ServerLevel, blockPos, player as ServerPlayer)
+        harvest(level as ServerLevel, blockPos, player as ServerPlayer, blockState)
         return ItemInteractionResult.SUCCESS
     }
 
@@ -129,8 +129,8 @@ class FruitBlock(properties: Properties) : HorizontalDirectionalBlock(properties
         return super.useWithoutItem(blockState, level, blockPos, player, blockHitResult)
     }
 
-    fun harvest(serverLevel: ServerLevel, blockPos: BlockPos, player: ServerPlayer) {
-        serverLevel.setBlockAndUpdate(blockPos, TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState())
+    fun harvest(serverLevel: ServerLevel, blockPos: BlockPos, player: ServerPlayer, blockState: BlockState) {
+        serverLevel.setBlockAndUpdate(blockPos, blockState.setValue(AGE, 0))
         player.addItem(ItemStack(TreeModule.CHAO_TREE_FRUIT))
     }
 
