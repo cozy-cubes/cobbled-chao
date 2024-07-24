@@ -13,6 +13,7 @@ import net.minecraft.world.InteractionResult
 import net.minecraft.world.ItemInteractionResult
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.Block
@@ -23,12 +24,41 @@ import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.IntegerProperty
 import net.minecraft.world.level.block.state.properties.Property
 import net.minecraft.world.phys.BlockHitResult
+import net.minecraft.world.phys.shapes.CollisionContext
+import net.minecraft.world.phys.shapes.VoxelShape
 
 class FruitBlock(properties: Properties) : HorizontalDirectionalBlock(properties), BonemealableBlock {
     companion object {
         val CODEC: MapCodec<FruitBlock> = simpleCodec(::FruitBlock)
         const val MAX_AGE = 3
         val AGE: IntegerProperty = IntegerProperty.create("age", 0, MAX_AGE)
+
+        val SHAPES = mapOf<Direction, List<VoxelShape>>(
+            Direction.NORTH to listOf(
+                box(6.5, 9.0, 14.5, 9.5, 13.0, 17.5),
+                box(6.5, 8.0, 14.5 ,9.5, 13.0, 17.5),
+                box(5.5, 7.0, 13.5, 10.5, 13.0, 18.5),
+                box(5.5, 6.0, 13.0, 11.0, 13.0, 19.0)
+            ),
+            Direction.EAST to listOf(
+                box(-1.5, 9.0, 6.5, 1.5, 13.0, 9.5),
+                box(-1.5, 8.0, 6.5, 1.5, 13.0, 9.5),
+                box(-2.5, 7.0, 5.5, 2.5, 13.0, 10.5),
+                box(-3.0, 6.0, 5.0, 3.0, 13.0, 9.0)
+            ),
+            Direction.SOUTH to listOf(
+                box(6.5, 9.0, -1.5, 9.5, 13.0, 1.5),
+                box(6.5, 8.0, -1.5, 9.5, 13.0, 1.5),
+                box(5.5, 7.0, -2.5, 10.5, 13.0, 2.5),
+                box(5.0, 6.0, -3.0, 11.0, 13.0, 3.0)
+            ),
+            Direction.WEST to listOf(
+                box(14.5, 9.0, 6.5, 17.5, 13.0, 9.5),
+                box(14.5, 8.0, 6.5, 17.5, 13.0, 9.5),
+                box(13.5, 7.0, 5.5, 18.5, 13.0, 10.5),
+                box(13.0, 6.0, 5.0, 19.0, 13.0, 11.0)
+            )
+        )
     }
 
     init {
@@ -102,5 +132,16 @@ class FruitBlock(properties: Properties) : HorizontalDirectionalBlock(properties
     fun harvest(serverLevel: ServerLevel, blockPos: BlockPos, player: ServerPlayer) {
         serverLevel.setBlockAndUpdate(blockPos, TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState())
         player.addItem(ItemStack(TreeModule.CHAO_TREE_FRUIT))
+    }
+
+    override fun getShape(
+        blockState: BlockState,
+        blockGetter: BlockGetter,
+        blockPos: BlockPos,
+        collisionContext: CollisionContext
+    ): VoxelShape {
+        val facing = blockState.getValue(FACING)
+        val age = blockState.getValue(AGE)
+        return SHAPES[facing]!![age]
     }
 }
