@@ -25,13 +25,11 @@ import net.minecraft.world.level.block.state.properties.Property
 
 // TODO: If broken, break all blocks in tree.
 // TODO: Continue to age until death if relevant to this tree.
-class SaplingBlock(properties: Properties) : Block(properties), BonemealableBlock {
+class SaplingBlock(properties: Properties) : TrunkBlock(properties), BonemealableBlock {
     // TODO: Datapack this for multiple trees and custom trees.
     companion object {
         const val MAX_AGE = 5
-        const val MAX_SIZE = 2
         val AGE: IntegerProperty = IntegerProperty.create("age", 0, MAX_AGE)
-        val SIZE: IntegerProperty = IntegerProperty.create("size", 0, MAX_SIZE)
     }
 
     init {
