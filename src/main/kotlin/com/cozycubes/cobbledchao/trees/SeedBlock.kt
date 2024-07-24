@@ -1,20 +1,23 @@
 package com.cozycubes.cobbledchao.trees
 
+import com.mojang.serialization.MapCodec
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.tags.BlockTags
 import net.minecraft.util.RandomSource
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.BonemealableBlock
+import net.minecraft.world.level.block.BushBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
 
-// TODO: Should only be plant-able on soil
-class SeedBlock(properties: Properties) : Block(properties), BonemealableBlock {
+class SeedBlock(properties: Properties) : BushBlock(properties), BonemealableBlock {
     companion object {
+        val CODEC: MapCodec<SeedBlock> = simpleCodec(::SeedBlock)
         // TODO: Config this.
         const val REQUIRED_LIGHT = 9
 
@@ -35,9 +38,22 @@ class SeedBlock(properties: Properties) : Block(properties), BonemealableBlock {
         }
     }
 
+    override fun codec(): MapCodec<out BushBlock> {
+        return CODEC
+    }
+
     fun grow(serverLevel: ServerLevel, blockPos: BlockPos) {
         serverLevel.setBlock(blockPos, TreeModule.CHAO_TREE_SAPLING.defaultBlockState(), 2)
-        TreeModule.CHAO_TREE_SAPLING.performBonemeal(serverLevel, serverLevel.random, blockPos, TreeModule.CHAO_TREE_SAPLING.defaultBlockState())
+        TreeModule.CHAO_TREE_SAPLING.performBonemeal(
+            serverLevel,
+            serverLevel.random,
+            blockPos,
+            TreeModule.CHAO_TREE_SAPLING.defaultBlockState()
+        )
+    }
+
+    override fun mayPlaceOn(blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos): Boolean {
+        return blockState.`is`(BlockTags.DIRT)
     }
 
     override fun getShape(
