@@ -37,7 +37,6 @@ object TreeModule {
     val CHAO_TREE_LEAVES_BLOCK = LeafBlock(
         BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LEAVES)
     )
-    // TODO: Name in lang.
     val CHAO_TREE_FRUIT = ChaosDrive(
         mapOf(
             ChaoStat.Companion.STATS.STAMINA to 40

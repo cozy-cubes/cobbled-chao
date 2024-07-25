@@ -64,7 +64,6 @@ class SaplingBlock(properties: Properties) : TrunkBlock(properties), Bonemealabl
                     .setValue(D_CONNECT, true),
                 BlockPos(0, 2, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
                     .setValue(TrunkBlock.SIZE, 0)
-                    .setValue(U_CONNECT, true)
                     .setValue(D_CONNECT, true)
                     .setValue(N_CONNECT, true)
                     .setValue(E_CONNECT, true)
@@ -90,7 +89,6 @@ class SaplingBlock(properties: Properties) : TrunkBlock(properties), Bonemealabl
                     .setValue(U_CONNECT, true)
                     .setValue(D_CONNECT, true),
                 BlockPos(0, 3, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
-                    .setValue(U_CONNECT, true)
                     .setValue(D_CONNECT, true)
                     .setValue(N_CONNECT, true)
                     .setValue(E_CONNECT, true)
@@ -124,7 +122,6 @@ class SaplingBlock(properties: Properties) : TrunkBlock(properties), Bonemealabl
                     .setValue(U_CONNECT, true)
                     .setValue(D_CONNECT, true),
                 BlockPos(0, 4, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
-                    .setValue(U_CONNECT, true)
                     .setValue(D_CONNECT, true)
                     .setValue(N_CONNECT, true)
                     .setValue(E_CONNECT, true)
@@ -156,7 +153,6 @@ class SaplingBlock(properties: Properties) : TrunkBlock(properties), Bonemealabl
                     .setValue(U_CONNECT, true)
                     .setValue(D_CONNECT, true),
                 BlockPos(0, 5, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
-                    .setValue(U_CONNECT, true)
                     .setValue(D_CONNECT, true)
                     .setValue(N_CONNECT, true)
                     .setValue(E_CONNECT, true)
@@ -193,7 +189,6 @@ class SaplingBlock(properties: Properties) : TrunkBlock(properties), Bonemealabl
                     .setValue(U_CONNECT, true)
                     .setValue(D_CONNECT, true),
                 BlockPos(0, 6, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
-                    .setValue(U_CONNECT, true)
                     .setValue(D_CONNECT, true)
                     .setValue(N_CONNECT, true)
                     .setValue(E_CONNECT, true)
