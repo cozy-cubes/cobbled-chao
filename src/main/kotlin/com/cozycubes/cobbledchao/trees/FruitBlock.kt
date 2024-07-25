@@ -2,6 +2,7 @@
 
 package com.cozycubes.cobbledchao.trees
 
+import com.cozycubes.cobbledchao.trees.Properties.MARKED
 import com.mojang.serialization.MapCodec
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
@@ -15,6 +16,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.BonemealableBlock
@@ -27,7 +29,7 @@ import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
 
-class FruitBlock(properties: Properties) : HorizontalDirectionalBlock(properties), BonemealableBlock {
+class FruitBlock(properties: Properties) : HorizontalDirectionalBlock(properties), BonemealableBlock, TreePart {
     companion object {
         val CODEC: MapCodec<FruitBlock> = simpleCodec(::FruitBlock)
         const val MAX_AGE = 3
@@ -36,7 +38,7 @@ class FruitBlock(properties: Properties) : HorizontalDirectionalBlock(properties
         val SHAPES = mapOf<Direction, List<VoxelShape>>(
             Direction.NORTH to listOf(
                 box(6.5, 9.0, 14.5, 9.5, 13.0, 17.5),
-                box(6.5, 8.0, 14.5 ,9.5, 13.0, 17.5),
+                box(6.5, 8.0, 14.5, 9.5, 13.0, 17.5),
                 box(5.5, 7.0, 13.5, 10.5, 13.0, 18.5),
                 box(5.5, 6.0, 13.0, 11.0, 13.0, 19.0)
             ),
@@ -66,7 +68,7 @@ class FruitBlock(properties: Properties) : HorizontalDirectionalBlock(properties
     }
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block?, BlockState?>) {
-        builder.add(*arrayOf<Property<*>>(FACING, AGE))
+        builder.add(*arrayOf<Property<*>>(FACING, AGE, MARKED))
     }
 
     override fun codec(): MapCodec<out HorizontalDirectionalBlock> {
@@ -143,5 +145,21 @@ class FruitBlock(properties: Properties) : HorizontalDirectionalBlock(properties
         val facing = blockState.getValue(FACING)
         val age = blockState.getValue(AGE)
         return SHAPES[facing]!![age]
+    }
+
+    override fun tick(
+        blockState: BlockState,
+        serverLevel: ServerLevel,
+        blockPos: BlockPos,
+        randomSource: RandomSource
+    ) {
+        if (blockState.getValue(MARKED)) {
+            serverLevel.destroyBlock(blockPos, true)
+            cascadeBreakage(serverLevel, blockPos)
+        }
+    }
+
+    override fun destroy(levelAccessor: LevelAccessor, blockPos: BlockPos, blockState: BlockState) {
+        cascadeBreakage(levelAccessor, blockPos)
     }
 }

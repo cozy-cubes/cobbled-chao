@@ -4,6 +4,7 @@ package com.cozycubes.cobbledchao.trees
 
 import com.cozycubes.cobbledchao.trees.Properties.D_CONNECT
 import com.cozycubes.cobbledchao.trees.Properties.E_CONNECT
+import com.cozycubes.cobbledchao.trees.Properties.MARKED
 import com.cozycubes.cobbledchao.trees.Properties.N_CONNECT
 import com.cozycubes.cobbledchao.trees.Properties.S_CONNECT
 import com.cozycubes.cobbledchao.trees.Properties.U_CONNECT
@@ -13,6 +14,7 @@ import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.RandomSource
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
@@ -25,7 +27,7 @@ import net.minecraft.world.level.block.state.properties.Property
 
 // TODO: If broken, break all blocks in tree.
 // TODO: Continue to age until death if relevant to this tree.
-class SaplingBlock(properties: Properties) : TrunkBlock(properties), BonemealableBlock {
+class SaplingBlock(properties: Properties) : TrunkBlock(properties), BonemealableBlock, TreePart {
     // TODO: Datapack this for multiple trees and custom trees.
     companion object {
         const val MAX_AGE = 5
@@ -43,6 +45,7 @@ class SaplingBlock(properties: Properties) : TrunkBlock(properties), Bonemealabl
                 .setValue(E_CONNECT, false)
                 .setValue(S_CONNECT, false)
                 .setValue(W_CONNECT, false)
+                .setValue(MARKED, false)
         )
     }
 
@@ -217,16 +220,32 @@ class SaplingBlock(properties: Properties) : TrunkBlock(properties), Bonemealabl
                 BlockPos(0, 5, 3) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
                 BlockPos(0, 5, -3) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
 
-                BlockPos(1, 5, 0) to TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState().setValue(FACING, Direction.EAST),
-                BlockPos(-1, 5, 0) to TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState().setValue(FACING, Direction.WEST),
-                BlockPos(0, 5, 1) to TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState().setValue(FACING, Direction.SOUTH),
-                BlockPos(0, 5, -1) to TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState().setValue(FACING, Direction.NORTH),
+                BlockPos(1, 5, 0) to TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState()
+                    .setValue(FACING, Direction.EAST),
+                BlockPos(-1, 5, 0) to TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState()
+                    .setValue(FACING, Direction.WEST),
+                BlockPos(0, 5, 1) to TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState()
+                    .setValue(FACING, Direction.SOUTH),
+                BlockPos(0, 5, -1) to TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState()
+                    .setValue(FACING, Direction.NORTH),
             )
         )
     }
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
-        builder.add(*arrayOf<Property<*>>(AGE, SIZE, U_CONNECT, D_CONNECT, N_CONNECT, E_CONNECT, S_CONNECT, W_CONNECT))
+        builder.add(
+            *arrayOf<Property<*>>(
+                AGE,
+                SIZE,
+                U_CONNECT,
+                D_CONNECT,
+                N_CONNECT,
+                E_CONNECT,
+                S_CONNECT,
+                W_CONNECT,
+                MARKED
+            )
+        )
     }
 
     override fun randomTick(
@@ -274,5 +293,21 @@ class SaplingBlock(properties: Properties) : TrunkBlock(properties), Bonemealabl
         blockState: BlockState
     ) {
         grow(serverLevel, blockState, blockPos)
+    }
+
+    override fun tick(
+        blockState: BlockState,
+        serverLevel: ServerLevel,
+        blockPos: BlockPos,
+        randomSource: RandomSource
+    ) {
+        if (blockState.getValue(MARKED)) {
+            serverLevel.destroyBlock(blockPos, true)
+            cascadeBreakage(serverLevel, blockPos)
+        }
+    }
+
+    override fun destroy(levelAccessor: LevelAccessor, blockPos: BlockPos, blockState: BlockState) {
+        cascadeBreakage(levelAccessor, blockPos)
     }
 }

@@ -9,4 +9,5 @@ object Properties {
     val E_CONNECT: BooleanProperty = BooleanProperty.create("east")
     val S_CONNECT: BooleanProperty = BooleanProperty.create("south")
     val W_CONNECT: BooleanProperty = BooleanProperty.create("west")
+    val MARKED: BooleanProperty = BooleanProperty.create("marked")
 }
