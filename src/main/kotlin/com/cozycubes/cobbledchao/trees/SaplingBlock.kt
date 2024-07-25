@@ -29,7 +29,8 @@ import net.minecraft.world.level.block.state.properties.Property
 class SaplingBlock(properties: Properties) : TrunkBlock(properties), BonemealableBlock, TreePart {
     // TODO: Datapack this for multiple trees and custom trees.
     companion object {
-        const val MAX_AGE = 5
+        const val MAX_AGE = 60
+        const val MAX_GROWTH_AGE = 5
         val AGE: IntegerProperty = IntegerProperty.create("age", 0, MAX_AGE)
     }
 
@@ -255,9 +256,20 @@ class SaplingBlock(properties: Properties) : TrunkBlock(properties), Bonemealabl
     }
 
     fun grow(serverLevel: ServerLevel, blockState: BlockState, blockPos: BlockPos) {
-        val nextAge = blockState.getValue(AGE)
+        val age = blockState.getValue(AGE)
 
-        val growthStage = getGrowthStages()[nextAge]
+        if (age >= MAX_AGE) {
+            serverLevel.destroyBlock(blockPos, true)
+            cascadeBreakage(serverLevel, blockPos)
+            return
+        }
+
+        if (age >= MAX_GROWTH_AGE) {
+            serverLevel.setBlock(blockPos, blockState.setValue(AGE, age + 1),0)
+            return
+        }
+
+        val growthStage = getGrowthStages()[age]
         if (growthStage.entries.any { (offset) ->
                 val target = serverLevel.getBlockState(blockPos.offset(offset))
                 return@any !(target.`is`(TreeModule.CHAO_TREE_FRUIT_BLOCK)
@@ -273,10 +285,10 @@ class SaplingBlock(properties: Properties) : TrunkBlock(properties), Bonemealabl
         }
     }
 
-    override fun isRandomlyTicking(blockState: BlockState): Boolean = blockState.getValue(AGE) < MAX_AGE
+    override fun isRandomlyTicking(blockState: BlockState): Boolean = true
 
     override fun isValidBonemealTarget(levelReader: LevelReader, blockPos: BlockPos, blockState: BlockState): Boolean =
-        blockState.getValue(AGE) < MAX_AGE
+        blockState.getValue(AGE) < MAX_GROWTH_AGE
 
     override fun isBonemealSuccess(
         level: Level,
