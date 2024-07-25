@@ -22,7 +22,6 @@ import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.phys.shapes.VoxelShape
 
-// TODO: If broken, break all blocks in tree.
 open class TrunkBlock(properties: Properties) : Block(properties), TreePart {
     companion object {
         val SIZE: IntegerProperty = IntegerProperty.create("size", 0, 2)

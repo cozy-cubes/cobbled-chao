@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.Property
 
-// TODO: If broken, break other leaves around it.
 class LeafBlock(properties: Properties) : Block(properties), TreePart {
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block?, BlockState?>) {
         builder.add(*arrayOf<Property<*>>(MARKED))

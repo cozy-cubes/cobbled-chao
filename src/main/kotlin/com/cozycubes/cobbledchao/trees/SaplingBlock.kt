@@ -25,7 +25,6 @@ import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.IntegerProperty
 import net.minecraft.world.level.block.state.properties.Property
 
-// TODO: If broken, break all blocks in tree.
 // TODO: Continue to age until death if relevant to this tree.
 class SaplingBlock(properties: Properties) : TrunkBlock(properties), BonemealableBlock, TreePart {
     // TODO: Datapack this for multiple trees and custom trees.
