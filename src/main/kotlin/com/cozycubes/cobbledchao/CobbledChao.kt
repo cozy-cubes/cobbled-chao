@@ -20,7 +20,7 @@ object CobbledChao : ModInitializer {
 
     override fun onInitialize() {
         logger.info("cobbled-chao loading")
-        TreeModule.registerAll()
+        TreeModule.init()
         ChaosDriveModule.init()
         ChaoModule.init()
     }
