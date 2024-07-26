@@ -9,32 +9,15 @@
 
 package com.cozycubes.cobbledchao.chao
 
-import com.cozycubes.cobbledchao.CobbledChao
+import com.cozycubes.cobbledchao.base.AbstractModule
+import com.cozycubes.cobbledchao.base.BaseRegistry.registerEntityType
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
-import net.minecraft.core.Registry
-import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.EntityType.EntityFactory
-import net.minecraft.world.entity.MobCategory
-import net.minecraft.world.entity.PathfinderMob
 
-object ChaoModule {
-    val CHAO: EntityType<ChaoEntity> = register("chao", ::ChaoEntity, 1f, 1f)
+object ChaoModule : AbstractModule() {
+    val CHAO: EntityType<ChaoEntity> = registerEntityType("chao", ::ChaoEntity, 1f, 1f)
 
-    fun registerAll() {
+    override fun init() {
         FabricDefaultAttributeRegistry.register(CHAO, ChaoEntity.ATTRIBUTES)
-    }
-
-    private fun <T : PathfinderMob> register(
-        name: String,
-        entity: EntityFactory<T>,
-        width: Float,
-        height: Float,
-    ): EntityType<T> {
-        return Registry.register(
-            BuiltInRegistries.ENTITY_TYPE,
-            CobbledChao.modResource(name),
-            EntityType.Builder.of(entity, MobCategory.CREATURE).sized(width, height).build(name)
-        )
     }
 }

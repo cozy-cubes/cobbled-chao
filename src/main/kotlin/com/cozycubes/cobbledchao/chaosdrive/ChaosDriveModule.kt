@@ -7,38 +7,40 @@
  */
 package com.cozycubes.cobbledchao.chaosdrive
 
-import com.cozycubes.cobbledchao.CobbledChao.modResource
+import com.cozycubes.cobbledchao.base.AbstractModule
+import com.cozycubes.cobbledchao.base.BaseRegistry.registerItem
 import com.cozycubes.cobbledchao.chao.ChaoStat
-import net.minecraft.core.Registry
-import net.minecraft.core.registries.BuiltInRegistries
 
-object ChaosDriveModule {
+object ChaosDriveModule : AbstractModule() {
     // TODO: Make datapackable.
-    val YELLOW_DRIVE = ChaosDrive(
-        mapOf(
-            ChaoStat.Companion.STATS.SWIM to 24
-        )
+    val YELLOW_DRIVE = registerItem(
+        ChaosDrive(
+            mapOf(
+                ChaoStat.Companion.STATS.SWIM to 24
+            )
+        ), "yellow_drive"
     )
-    val PURPLE_DRIVE = ChaosDrive(
-        mapOf(
-            ChaoStat.Companion.STATS.FLY to 24
-        )
+    val PURPLE_DRIVE = registerItem(
+        ChaosDrive(
+            mapOf(
+                ChaoStat.Companion.STATS.FLY to 24
+            )
+        ), "purple_drive"
     )
-    val GREEN_DRIVE = ChaosDrive(
-        mapOf(
-            ChaoStat.Companion.STATS.RUN to 24
-        )
+    val GREEN_DRIVE = registerItem(
+        ChaosDrive(
+            mapOf(
+                ChaoStat.Companion.STATS.RUN to 24
+            )
+        ), "green_drive"
     )
-    val RED_DRIVE = ChaosDrive(
-        mapOf(
-            ChaoStat.Companion.STATS.POWER to 24
-        )
+    val RED_DRIVE = registerItem(
+        ChaosDrive(
+            mapOf(
+                ChaoStat.Companion.STATS.POWER to 24
+            )
+        ), "red_drive"
     )
 
-    fun registerAll() {
-        Registry.register(BuiltInRegistries.ITEM, modResource("green_drive"), GREEN_DRIVE)
-        Registry.register(BuiltInRegistries.ITEM, modResource("red_drive"), RED_DRIVE)
-        Registry.register(BuiltInRegistries.ITEM, modResource("purple_drive"), PURPLE_DRIVE)
-        Registry.register(BuiltInRegistries.ITEM, modResource("yellow_drive"), YELLOW_DRIVE)
-    }
+    override fun init() {}
 }
