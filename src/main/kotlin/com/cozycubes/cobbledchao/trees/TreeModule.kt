@@ -20,10 +20,6 @@ object TreeModule : AbstractModule() {
                 .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
         ), "chao_tree_seed"
     )
-    val CHAO_TREE_SAPLING = registerBlock(SaplingBlock(
-        BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().sound(SoundType.WOOD).noOcclusion()
-            .isViewBlocking { _, _, _ -> false }
-    ), "chao_tree_sapling", skipItem = true) as SaplingBlock
     val CHAO_TREE_TRUNK = registerBlock(
         TrunkBlock(
             BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).sound(SoundType.WOOD).noOcclusion()
@@ -49,6 +45,11 @@ object TreeModule : AbstractModule() {
             )
         ), "chao_tree_fruit"
     )
+    val CHAO_TREE_SAPLING = registerBlock(SaplingBlock(
+        TreeGrowthStages.gardenTreeGrowthStages,
+        BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().sound(SoundType.WOOD).noOcclusion()
+            .isViewBlocking { _, _, _ -> false }
+    ), "chao_tree_sapling", skipItem = true) as SaplingBlock
 
     override fun init() {}
 }

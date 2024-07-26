@@ -9,24 +9,23 @@ import com.cozycubes.cobbledchao.trees.Properties.N_CONNECT
 import com.cozycubes.cobbledchao.trees.Properties.S_CONNECT
 import com.cozycubes.cobbledchao.trees.Properties.U_CONNECT
 import com.cozycubes.cobbledchao.trees.Properties.W_CONNECT
+import com.google.common.primitives.Ints.min
 import net.minecraft.core.BlockPos
-import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.RandomSource
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.BonemealableBlock
-import net.minecraft.world.level.block.HorizontalDirectionalBlock.FACING
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.IntegerProperty
 import net.minecraft.world.level.block.state.properties.Property
 
 // TODO: Continue to age until death if relevant to this tree.
-class SaplingBlock(properties: Properties) : TrunkBlock(properties), BonemealableBlock, TreePart {
+class SaplingBlock(val growthStages: List<Map<BlockPos, BlockState>>, properties: Properties) : TrunkBlock(properties),
+    BonemealableBlock, TreePart {
     // TODO: Datapack this for multiple trees and custom trees.
     companion object {
         const val MAX_AGE = 60
@@ -46,184 +45,6 @@ class SaplingBlock(properties: Properties) : TrunkBlock(properties), Bonemealabl
                 .setValue(S_CONNECT, false)
                 .setValue(W_CONNECT, false)
                 .setValue(MARKED, false)
-        )
-    }
-
-    // TODO: Abstract and datapack.
-    fun getGrowthStages(): List<Map<BlockPos, BlockState>> {
-        return listOf<Map<BlockPos, BlockState>>(
-            mapOf(
-                BlockPos(0, 0, 0) to TreeModule.CHAO_TREE_SAPLING.defaultBlockState()
-                    .setValue(SIZE, 1)
-                    .setValue(AGE, 1)
-                    .setValue(U_CONNECT, true)
-                    .setValue(D_CONNECT, true),
-                BlockPos(0, 1, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
-                    .setValue(TrunkBlock.SIZE, 0)
-                    .setValue(U_CONNECT, true)
-                    .setValue(D_CONNECT, true),
-                BlockPos(0, 2, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
-                    .setValue(TrunkBlock.SIZE, 0)
-                    .setValue(D_CONNECT, true)
-                    .setValue(N_CONNECT, true)
-                    .setValue(E_CONNECT, true)
-                    .setValue(S_CONNECT, true)
-                    .setValue(W_CONNECT, true),
-
-                BlockPos(1, 2, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(-1, 2, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(0, 2, 1) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(0, 2, -1) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-            ),
-            mapOf(
-                BlockPos(0, 0, 0) to TreeModule.CHAO_TREE_SAPLING.defaultBlockState()
-                    .setValue(SIZE, 2)
-                    .setValue(AGE, 2)
-                    .setValue(U_CONNECT, true)
-                    .setValue(D_CONNECT, true),
-                BlockPos(0, 1, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
-                    .setValue(TrunkBlock.SIZE, 1)
-                    .setValue(U_CONNECT, true)
-                    .setValue(D_CONNECT, true),
-                BlockPos(0, 2, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
-                    .setValue(U_CONNECT, true)
-                    .setValue(D_CONNECT, true),
-                BlockPos(0, 3, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
-                    .setValue(D_CONNECT, true)
-                    .setValue(N_CONNECT, true)
-                    .setValue(E_CONNECT, true)
-                    .setValue(S_CONNECT, true)
-                    .setValue(W_CONNECT, true),
-
-                BlockPos(1, 2, 0) to Blocks.AIR.defaultBlockState(),
-                BlockPos(-1, 2, 0) to Blocks.AIR.defaultBlockState(),
-                BlockPos(0, 2, 1) to Blocks.AIR.defaultBlockState(),
-                BlockPos(0, 2, -1) to Blocks.AIR.defaultBlockState(),
-
-                BlockPos(1, 3, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(-1, 3, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(0, 3, 1) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(0, 3, -1) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-            ),
-            mapOf(
-                BlockPos(0, 0, 0) to TreeModule.CHAO_TREE_SAPLING.defaultBlockState()
-                    .setValue(SIZE, 2)
-                    .setValue(AGE, 3)
-                    .setValue(U_CONNECT, true)
-                    .setValue(D_CONNECT, true),
-                BlockPos(0, 1, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
-                    .setValue(TrunkBlock.SIZE, 1)
-                    .setValue(U_CONNECT, true)
-                    .setValue(D_CONNECT, true),
-                BlockPos(0, 2, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
-                    .setValue(U_CONNECT, true)
-                    .setValue(D_CONNECT, true),
-                BlockPos(0, 3, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
-                    .setValue(U_CONNECT, true)
-                    .setValue(D_CONNECT, true),
-                BlockPos(0, 4, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
-                    .setValue(D_CONNECT, true)
-                    .setValue(N_CONNECT, true)
-                    .setValue(E_CONNECT, true)
-                    .setValue(S_CONNECT, true)
-                    .setValue(W_CONNECT, true),
-
-                BlockPos(1, 3, 0) to Blocks.AIR.defaultBlockState(),
-                BlockPos(-1, 3, 0) to Blocks.AIR.defaultBlockState(),
-                BlockPos(0, 3, 1) to Blocks.AIR.defaultBlockState(),
-                BlockPos(0, 3, -1) to Blocks.AIR.defaultBlockState(),
-
-                BlockPos(1, 4, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(-1, 4, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(0, 4, 1) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(0, 4, -1) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-
-                BlockPos(2, 5, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(-2, 3, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(0, 3, 2) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(0, 3, -2) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-            ),
-            mapOf(
-                BlockPos(0, 0, 0) to TreeModule.CHAO_TREE_SAPLING.defaultBlockState()
-                    .setValue(SIZE, 2)
-                    .setValue(AGE, 4)
-                    .setValue(U_CONNECT, true)
-                    .setValue(D_CONNECT, true),
-                BlockPos(0, 4, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
-                    .setValue(U_CONNECT, true)
-                    .setValue(D_CONNECT, true),
-                BlockPos(0, 5, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
-                    .setValue(D_CONNECT, true)
-                    .setValue(N_CONNECT, true)
-                    .setValue(E_CONNECT, true)
-                    .setValue(S_CONNECT, true)
-                    .setValue(W_CONNECT, true),
-
-                BlockPos(1, 4, 0) to Blocks.AIR.defaultBlockState(),
-                BlockPos(-1, 4, 0) to Blocks.AIR.defaultBlockState(),
-                BlockPos(0, 4, 1) to Blocks.AIR.defaultBlockState(),
-                BlockPos(0, 4, -1) to Blocks.AIR.defaultBlockState(),
-
-                BlockPos(2, 5, 0) to Blocks.AIR.defaultBlockState(),
-                BlockPos(-2, 3, 0) to Blocks.AIR.defaultBlockState(),
-                BlockPos(0, 3, 2) to Blocks.AIR.defaultBlockState(),
-                BlockPos(0, 3, -2) to Blocks.AIR.defaultBlockState(),
-
-                BlockPos(1, 5, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(-1, 5, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(0, 5, 1) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(0, 5, -1) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-
-                BlockPos(2, 6, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(-2, 4, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(0, 4, 2) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(0, 4, -2) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-            ),
-            mapOf(
-                BlockPos(0, 0, 0) to TreeModule.CHAO_TREE_SAPLING.defaultBlockState()
-                    .setValue(SIZE, 2)
-                    .setValue(AGE, 5)
-                    .setValue(U_CONNECT, true)
-                    .setValue(D_CONNECT, true),
-                BlockPos(0, 5, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
-                    .setValue(U_CONNECT, true)
-                    .setValue(D_CONNECT, true),
-                BlockPos(0, 6, 0) to TreeModule.CHAO_TREE_TRUNK.defaultBlockState()
-                    .setValue(D_CONNECT, true)
-                    .setValue(N_CONNECT, true)
-                    .setValue(E_CONNECT, true)
-                    .setValue(S_CONNECT, true)
-                    .setValue(W_CONNECT, true),
-
-                BlockPos(2, 6, 0) to Blocks.AIR.defaultBlockState(),
-                BlockPos(-2, 4, 0) to Blocks.AIR.defaultBlockState(),
-                BlockPos(0, 4, 2) to Blocks.AIR.defaultBlockState(),
-                BlockPos(0, 4, -2) to Blocks.AIR.defaultBlockState(),
-
-                BlockPos(1, 6, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(-1, 6, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(0, 6, 1) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(0, 6, -1) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-
-                BlockPos(2, 6, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(-2, 6, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(0, 6, 2) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(0, 6, -2) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-
-                BlockPos(3, 7, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(-3, 5, 0) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(0, 5, 3) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-                BlockPos(0, 5, -3) to TreeModule.CHAO_TREE_LEAVES_BLOCK.defaultBlockState(),
-
-                BlockPos(1, 5, 0) to TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState()
-                    .setValue(FACING, Direction.EAST),
-                BlockPos(-1, 5, 0) to TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState()
-                    .setValue(FACING, Direction.WEST),
-                BlockPos(0, 5, 1) to TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState()
-                    .setValue(FACING, Direction.SOUTH),
-                BlockPos(0, 5, -1) to TreeModule.CHAO_TREE_FRUIT_BLOCK.defaultBlockState()
-                    .setValue(FACING, Direction.NORTH),
-            )
         )
     }
 
@@ -260,11 +81,11 @@ class SaplingBlock(properties: Properties) : TrunkBlock(properties), Bonemealabl
         }
 
         if (age >= MAX_GROWTH_AGE) {
-            serverLevel.setBlock(blockPos, blockState.setValue(AGE, age + 1),0)
+            serverLevel.setBlock(blockPos, blockState.setValue(AGE, age + 1), 0)
             return
         }
 
-        val growthStage = getGrowthStages()[age]
+        val growthStage = growthStages[age]
         if (growthStage.entries.any { (offset) ->
                 val target = serverLevel.getBlockState(blockPos.offset(offset))
                 return@any !(target.`is`(TreeModule.CHAO_TREE_FRUIT_BLOCK)
@@ -278,6 +99,14 @@ class SaplingBlock(properties: Properties) : TrunkBlock(properties), Bonemealabl
         growthStage.entries.forEach { (offset, newState) ->
             serverLevel.setBlockAndUpdate(blockPos.offset(offset), newState)
         }
+        serverLevel.setBlockAndUpdate(
+            blockPos,
+            blockState
+                .setValue(AGE, age + 1)
+                .setValue(SIZE, min(age + 1, SIZE.possibleValues.max()))
+                .setValue(U_CONNECT, true)
+                .setValue(D_CONNECT, true)
+        )
     }
 
     override fun isRandomlyTicking(blockState: BlockState): Boolean = true
