@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk0"
+        "model": "cobbled-chao:block/tree/garden/trunk0"
       },
       "when": {
         "size": 0
@@ -10,7 +10,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk1"
+        "model": "cobbled-chao:block/tree/garden/trunk1"
       },
       "when": {
         "size": 1
@@ -18,7 +18,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk2"
+        "model": "cobbled-chao:block/tree/garden/trunk2"
       },
       "when": {
         "size": 2
@@ -26,7 +26,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk_connector0",
+        "model": "cobbled-chao:block/tree/garden/trunk_connector0",
         "uvlock": true,
         "x": 180
       },
@@ -37,7 +37,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk_connector0",
+        "model": "cobbled-chao:block/tree/garden/trunk_connector0",
         "uvlock": true
       },
       "when": {
@@ -47,7 +47,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk_connector0",
+        "model": "cobbled-chao:block/tree/garden/trunk_connector0",
         "uvlock": true,
         "x": 270
       },
@@ -58,7 +58,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk_connector0",
+        "model": "cobbled-chao:block/tree/garden/trunk_connector0",
         "uvlock": true,
         "x": 90
       },
@@ -69,7 +69,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk_connector0",
+        "model": "cobbled-chao:block/tree/garden/trunk_connector0",
         "uvlock": true,
         "x": 90,
         "y": 270
@@ -81,7 +81,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk_connector0",
+        "model": "cobbled-chao:block/tree/garden/trunk_connector0",
         "uvlock": true,
         "x": 90,
         "y": 90
@@ -93,7 +93,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk_connector1",
+        "model": "cobbled-chao:block/tree/garden/trunk_connector1",
         "uvlock": true,
         "x": 180
       },
@@ -104,7 +104,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk_connector1",
+        "model": "cobbled-chao:block/tree/garden/trunk_connector1",
         "uvlock": true
       },
       "when": {
@@ -114,7 +114,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk_connector1",
+        "model": "cobbled-chao:block/tree/garden/trunk_connector1",
         "uvlock": true,
         "x": 270
       },
@@ -125,7 +125,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk_connector1",
+        "model": "cobbled-chao:block/tree/garden/trunk_connector1",
         "uvlock": true,
         "x": 90
       },
@@ -136,7 +136,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk_connector1",
+        "model": "cobbled-chao:block/tree/garden/trunk_connector1",
         "uvlock": true,
         "x": 90,
         "y": 270
@@ -148,7 +148,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk_connector1",
+        "model": "cobbled-chao:block/tree/garden/trunk_connector1",
         "uvlock": true,
         "x": 90,
         "y": 90
@@ -160,7 +160,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk_connector2",
+        "model": "cobbled-chao:block/tree/garden/trunk_connector2",
         "uvlock": true,
         "x": 180
       },
@@ -171,7 +171,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk_connector2",
+        "model": "cobbled-chao:block/tree/garden/trunk_connector2",
         "uvlock": true
       },
       "when": {
@@ -181,7 +181,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk_connector2",
+        "model": "cobbled-chao:block/tree/garden/trunk_connector2",
         "uvlock": true,
         "x": 270
       },
@@ -192,7 +192,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk_connector2",
+        "model": "cobbled-chao:block/tree/garden/trunk_connector2",
         "uvlock": true,
         "x": 90
       },
@@ -203,7 +203,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk_connector2",
+        "model": "cobbled-chao:block/tree/garden/trunk_connector2",
         "uvlock": true,
         "x": 90,
         "y": 270
@@ -215,7 +215,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_trunk_connector2",
+        "model": "cobbled-chao:block/tree/garden/trunk_connector2",
         "uvlock": true,
         "x": 90,
         "y": 90

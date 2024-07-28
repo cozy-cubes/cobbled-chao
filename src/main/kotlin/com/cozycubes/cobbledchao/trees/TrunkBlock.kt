@@ -4,6 +4,7 @@ import com.cozycubes.cobbledchao.trees.Properties.D_CONNECT
 import com.cozycubes.cobbledchao.trees.Properties.E_CONNECT
 import com.cozycubes.cobbledchao.trees.Properties.MARKED
 import com.cozycubes.cobbledchao.trees.Properties.N_CONNECT
+import com.cozycubes.cobbledchao.trees.Properties.SIZE
 import com.cozycubes.cobbledchao.trees.Properties.S_CONNECT
 import com.cozycubes.cobbledchao.trees.Properties.U_CONNECT
 import com.cozycubes.cobbledchao.trees.Properties.W_CONNECT
@@ -16,7 +17,6 @@ import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
-import net.minecraft.world.level.block.state.properties.IntegerProperty
 import net.minecraft.world.level.block.state.properties.Property
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.Shapes
@@ -24,7 +24,6 @@ import net.minecraft.world.phys.shapes.VoxelShape
 
 open class TrunkBlock(properties: Properties) : Block(properties), TreePart {
     companion object {
-        val SIZE: IntegerProperty = IntegerProperty.create("size", 0, 2)
 
         val CACHED_SHAPES = mutableMapOf<BlockState, VoxelShape>()
         val CENTER_SHAPES = listOf<VoxelShape>(

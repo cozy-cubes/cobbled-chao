@@ -20,7 +20,7 @@ object CobbledChaoClient : ClientModInitializer {
         ClientNetwork.init()
         BlockRenderLayerMap.INSTANCE.putBlocks(
             RenderType.cutout(),
-            TreeModule.CHAO_TREE_SEED
+            TreeModule.GARDEN_TREE.seed
         )
     }
 }

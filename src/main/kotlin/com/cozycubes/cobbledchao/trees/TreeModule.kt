@@ -14,42 +14,55 @@ import net.minecraft.world.level.material.MapColor
 import net.minecraft.world.level.material.PushReaction
 
 object TreeModule : AbstractModule() {
-    val CHAO_TREE_SEED = registerBlock(
-        SeedBlock(
-            BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak()
-                .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
-        ), "chao_tree_seed"
-    )
-    val CHAO_TREE_TRUNK = registerBlock(
-        TrunkBlock(
-            BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).sound(SoundType.WOOD).noOcclusion()
-                .isViewBlocking { _, _, _ -> false }.dynamicShape()
-        ), "chao_tree_trunk", skipItem = true
-    )
-    val CHAO_TREE_FRUIT_BLOCK = registerBlock(
-        FruitBlock(
-            BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().strength(0.2f, 3.0f)
-                .sound(SoundType.WOOD)
-                .noOcclusion().pushReaction(PushReaction.DESTROY).isViewBlocking { _, _, _ -> false }.dynamicShape()
-        ), "chao_tree_fruit_block", skipItem = true
-    )
-    val CHAO_TREE_LEAVES_BLOCK = registerBlock(
-        LeafBlock(
-            BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LEAVES)
-        ), "chao_tree_leaves", skipItem = true
-    )
-    val CHAO_TREE_FRUIT = registerItem(
-        ChaosDrive(
-            mapOf(
-                ChaoStat.Companion.STATS.STAMINA to 40
-            )
-        ), "chao_tree_fruit"
-    )
-    val CHAO_TREE_SAPLING = registerBlock(SaplingBlock(
-        TreeGrowthStages.gardenTreeGrowthStages,
-        BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().sound(SoundType.WOOD).noOcclusion()
-            .isViewBlocking { _, _, _ -> false }
-    ), "chao_tree_sapling", skipItem = true) as SaplingBlock
+    val GARDEN_TREE = registerTree("garden")
 
     override fun init() {}
+
+    fun registerTree(name: String): Tree {
+        val prefix = "chaotree_$name"
+
+        val sapling = registerBlock(
+            SaplingBlock(TreeGrowthStages.gardenTreeGrowthStages,
+                BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().sound(SoundType.WOOD)
+                    .noOcclusion().isViewBlocking { _, _, _ -> false }), "${prefix}_sapling", skipItem = true
+        ) as SaplingBlock
+        val seed = registerBlock(
+            SeedBlock(
+                sapling,
+                BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak()
+                    .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
+            ), "${prefix}_seed"
+        ) as SeedBlock
+        val trunk = registerBlock(
+            TrunkBlock(
+                BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).sound(SoundType.WOOD).noOcclusion()
+                    .isViewBlocking { _, _, _ -> false }.dynamicShape()
+            ), "${prefix}_trunk", skipItem = true
+        ) as TrunkBlock
+        val leaf = registerBlock(
+            LeafBlock(
+                BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LEAVES)
+            ), "${prefix}_leaves", skipItem = true
+        ) as LeafBlock
+        val fruitItem = registerItem(
+            ChaosDrive(
+                mapOf(
+                    ChaoStat.Companion.STATS.STAMINA to 40
+                )
+            ), "${prefix}_fruit"
+        ) as ChaosDrive
+        val fruitBlock = registerBlock(
+            FruitBlock(
+                fruitItem,
+                BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().strength(0.2f, 3.0f)
+                    .sound(SoundType.WOOD).noOcclusion().pushReaction(PushReaction.DESTROY)
+                    .isViewBlocking { _, _, _ -> false }.dynamicShape()
+            ), "${prefix}_fruit", skipItem = true
+        ) as FruitBlock
+
+        return Tree(
+            seed, sapling, trunk, leaf, fruitBlock, fruitItem
+        )
+    }
 }
+

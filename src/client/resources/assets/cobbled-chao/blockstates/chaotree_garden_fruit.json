@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_fruit_block0",
+        "model": "cobbled-chao:block/tree/garden/fruit0",
         "y": 180
       },
       "when": {
@@ -12,7 +12,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_fruit_block0",
+        "model": "cobbled-chao:block/tree/garden/fruit0",
         "y": 270
       },
       "when": {
@@ -22,7 +22,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_fruit_block0",
+        "model": "cobbled-chao:block/tree/garden/fruit0",
         "y": 0
       },
       "when": {
@@ -32,7 +32,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_fruit_block0",
+        "model": "cobbled-chao:block/tree/garden/fruit0",
         "y": 90
       },
       "when": {
@@ -42,7 +42,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_fruit_block1",
+        "model": "cobbled-chao:block/tree/garden/fruit1",
         "y": 180
       },
       "when": {
@@ -52,7 +52,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_fruit_block1",
+        "model": "cobbled-chao:block/tree/garden/fruit1",
         "y": 270
       },
       "when": {
@@ -62,7 +62,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_fruit_block1",
+        "model": "cobbled-chao:block/tree/garden/fruit1",
         "y": 0
       },
       "when": {
@@ -72,7 +72,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_fruit_block1",
+        "model": "cobbled-chao:block/tree/garden/fruit1",
         "y": 90
       },
       "when": {
@@ -82,7 +82,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_fruit_block2",
+        "model": "cobbled-chao:block/tree/garden/fruit2",
         "y": 180
       },
       "when": {
@@ -92,7 +92,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_fruit_block2",
+        "model": "cobbled-chao:block/tree/garden/fruit2",
         "y": 270
       },
       "when": {
@@ -102,7 +102,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_fruit_block2",
+        "model": "cobbled-chao:block/tree/garden/fruit2",
         "y": 0
       },
       "when": {
@@ -112,7 +112,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_fruit_block2",
+        "model": "cobbled-chao:block/tree/garden/fruit2",
         "y": 90
       },
       "when": {
@@ -122,7 +122,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_fruit_block3",
+        "model": "cobbled-chao:block/tree/garden/fruit3",
         "y": 180
       },
       "when": {
@@ -132,7 +132,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_fruit_block3",
+        "model": "cobbled-chao:block/tree/garden/fruit3",
         "y": 270
       },
       "when": {
@@ -142,7 +142,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_fruit_block3",
+        "model": "cobbled-chao:block/tree/garden/fruit3",
         "y": 0
       },
       "when": {
@@ -152,7 +152,7 @@
     },
     {
       "apply": {
-        "model": "cobbled-chao:block/chao_tree_fruit_block3",
+        "model": "cobbled-chao:block/tree/garden/fruit3",
         "y": 90
       },
       "when": {

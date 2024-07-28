@@ -1,5 +1,5 @@
 {
-	"parent": "cobbled-chao:block/chao_tree_trunk",
+	"parent": "cobbled-chao:block/tree/garden/trunk",
 	"elements": [
 		{
 			"from": [2, 2, 2],

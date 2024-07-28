@@ -3,7 +3,6 @@
 package com.cozycubes.cobbledchao.trees
 
 import com.cozycubes.cobbledchao.trees.Properties.MARKED
-import com.mojang.serialization.MapCodec
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel
@@ -13,6 +12,7 @@ import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.ItemInteractionResult
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
@@ -20,18 +20,17 @@ import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.BonemealableBlock
-import net.minecraft.world.level.block.HorizontalDirectionalBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING
 import net.minecraft.world.level.block.state.properties.IntegerProperty
 import net.minecraft.world.level.block.state.properties.Property
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
 
-class FruitBlock(properties: Properties) : HorizontalDirectionalBlock(properties), BonemealableBlock, TreePart {
+class FruitBlock(val fruitItem: Item, properties: Properties) : Block(properties), BonemealableBlock, TreePart {
     companion object {
-        val CODEC: MapCodec<FruitBlock> = simpleCodec(::FruitBlock)
         const val MAX_AGE = 3
         val AGE: IntegerProperty = IntegerProperty.create("age", 0, MAX_AGE)
 
@@ -64,15 +63,11 @@ class FruitBlock(properties: Properties) : HorizontalDirectionalBlock(properties
     }
 
     init {
-        registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(AGE, 0))
+        registerDefaultState(stateDefinition.any().setValue(HORIZONTAL_FACING, Direction.NORTH).setValue(AGE, 0))
     }
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block?, BlockState?>) {
-        builder.add(*arrayOf<Property<*>>(FACING, AGE, MARKED))
-    }
-
-    override fun codec(): MapCodec<out HorizontalDirectionalBlock> {
-        return CODEC
+        builder.add(*arrayOf<Property<*>>(HORIZONTAL_FACING, AGE, MARKED))
     }
 
     override fun randomTick(
@@ -133,7 +128,7 @@ class FruitBlock(properties: Properties) : HorizontalDirectionalBlock(properties
 
     fun harvest(serverLevel: ServerLevel, blockPos: BlockPos, player: ServerPlayer, blockState: BlockState) {
         serverLevel.setBlockAndUpdate(blockPos, blockState.setValue(AGE, 0))
-        player.addItem(ItemStack(TreeModule.CHAO_TREE_FRUIT))
+        player.addItem(ItemStack(fruitItem))
     }
 
     override fun getShape(
@@ -142,7 +137,7 @@ class FruitBlock(properties: Properties) : HorizontalDirectionalBlock(properties
         blockPos: BlockPos,
         collisionContext: CollisionContext
     ): VoxelShape {
-        val facing = blockState.getValue(FACING)
+        val facing = blockState.getValue(HORIZONTAL_FACING)
         val age = blockState.getValue(AGE)
         return SHAPES[facing]!![age]
     }

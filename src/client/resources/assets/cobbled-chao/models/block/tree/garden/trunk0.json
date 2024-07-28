@@ -1,6 +1,6 @@
 {
 	"credit": "Made with Blockbench",
-	"parent": "cobbled-chao:block/chao_tree_trunk",
+	"parent": "cobbled-chao:block/tree/garden/trunk",
 	"elements": [
 		{
 			"from": [4, 4, 4],
