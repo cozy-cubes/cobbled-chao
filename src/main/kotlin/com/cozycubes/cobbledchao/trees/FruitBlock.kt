@@ -6,11 +6,10 @@ import com.cozycubes.cobbledchao.trees.Properties.MARKED
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.RandomSource
 import net.minecraft.world.InteractionHand
-import net.minecraft.world.InteractionResult
 import net.minecraft.world.ItemInteractionResult
+import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
@@ -112,23 +111,14 @@ class FruitBlock(val fruitItem: Item, properties: Properties) : Block(properties
         if (interactionHand != InteractionHand.MAIN_HAND || level.isClientSide || blockState.getValue(AGE) < MAX_AGE) {
             return super.useItemOn(itemStack, blockState, level, blockPos, player, interactionHand, blockHitResult)
         }
-        harvest(level as ServerLevel, blockPos, player as ServerPlayer, blockState)
+        harvest(level as ServerLevel, blockPos, blockState)
         return ItemInteractionResult.SUCCESS
     }
 
-    override fun useWithoutItem(
-        blockState: BlockState,
-        level: Level,
-        blockPos: BlockPos,
-        player: Player,
-        blockHitResult: BlockHitResult
-    ): InteractionResult {
-        return super.useWithoutItem(blockState, level, blockPos, player, blockHitResult)
-    }
-
-    fun harvest(serverLevel: ServerLevel, blockPos: BlockPos, player: ServerPlayer, blockState: BlockState) {
+    fun harvest(serverLevel: ServerLevel, blockPos: BlockPos, blockState: BlockState) {
         serverLevel.setBlockAndUpdate(blockPos, blockState.setValue(AGE, 0))
-        player.addItem(ItemStack(fruitItem))
+        val dropped = ItemStack(fruitItem)
+        serverLevel.addFreshEntity(ItemEntity(serverLevel, blockPos.bottomCenter.x, blockPos.bottomCenter.y - 0.5, blockPos.bottomCenter.z, dropped))
     }
 
     override fun getShape(
