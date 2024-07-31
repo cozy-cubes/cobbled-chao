@@ -10,11 +10,12 @@ import com.cozycubes.cobbledchao.trees.Properties.SIZE
 import com.cozycubes.cobbledchao.trees.Properties.S_CONNECT
 import com.cozycubes.cobbledchao.trees.Properties.U_CONNECT
 import com.cozycubes.cobbledchao.trees.Properties.W_CONNECT
-import com.google.common.primitives.Ints.min
+import com.cozycubes.cobbledchao.trees.Properties.register
 import com.mojang.serialization.MapCodec
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.RandomSource
+import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.LevelReader
@@ -26,11 +27,12 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty
 import net.minecraft.world.level.block.state.properties.Property
 
 // TODO: Continue to age until death if relevant to this tree.
-class SaplingBlock(val growthStages: List<List<GrowthStageEntry>>, myProperties: Properties) :
+class SaplingBlock(val growthStages: GrowthStages, myProperties: Properties) :
     TrunkBlock(myProperties), BonemealableBlock, TreePart {
     // TODO: Datapack this for multiple trees and custom trees.
     companion object {
-        const val MAX_AGE = 60
+        // TODO: Reduce tick chance beyond the growth age.
+        const val MAX_AGE = 10
         const val MAX_GROWTH_AGE = 5
         val AGE: IntegerProperty = IntegerProperty.create("age", 0, MAX_AGE)
     }
@@ -62,38 +64,22 @@ class SaplingBlock(val growthStages: List<List<GrowthStageEntry>>, myProperties:
         grow(serverLevel, blockState, blockPos)
     }
 
-    fun grow(serverLevel: ServerLevel, blockState: BlockState, blockPos: BlockPos) {
+    // TODO: Play particle effect on success/fail.
+    fun grow(serverLevel: ServerLevel, blockState: BlockState, blockPos: BlockPos): TreeGrowthResult {
         val age = blockState.getValue(AGE)
 
         if (age >= MAX_AGE) {
             serverLevel.destroyBlock(blockPos, true)
             cascadeBreakage(serverLevel, blockPos)
-            return
+            return TreeGrowthResult.PASS
         }
 
         if (age >= MAX_GROWTH_AGE) {
             serverLevel.setBlock(blockPos, blockState.setValue(AGE, age + 1), 0)
-            return
+            return TreeGrowthResult.PASS
         }
 
-        val growthStage = growthStages[age]
-        if (growthStage.any { growthStageEntry ->
-                val offset = growthStageEntry.pos
-                val target = serverLevel.getBlockState(blockPos.offset(offset))
-                return@any !(target.block is FruitBlock || target.block is SaplingBlock || target.block is TrunkBlock || target.block is LeafBlock || target.isAir)
-            }) {
-            return
-        }
-        growthStage.forEach { growthStageEntry ->
-            val offset = growthStageEntry.pos
-            val state = growthStageEntry.evaluate()
-            serverLevel.setBlockAndUpdate(blockPos.offset(offset), state)
-        }
-        serverLevel.setBlockAndUpdate(
-            blockPos,
-            blockState.setValue(AGE, age + 1).setValue(SIZE, min(age + 1, SIZE.possibleValues.max()))
-                .setValue(U_CONNECT, true).setValue(D_CONNECT, true)
-        )
+        return growthStages.applyStage(age, serverLevel, blockState, blockPos)
     }
 
     override fun isRandomlyTicking(blockState: BlockState): Boolean = true
@@ -101,6 +87,7 @@ class SaplingBlock(val growthStages: List<List<GrowthStageEntry>>, myProperties:
     override fun isValidBonemealTarget(levelReader: LevelReader, blockPos: BlockPos, blockState: BlockState): Boolean =
         blockState.getValue(AGE) < MAX_GROWTH_AGE
 
+    // TODO: Ensure growth stage can occur.
     override fun isBonemealSuccess(
         level: Level, randomSource: RandomSource, blockPos: BlockPos, blockState: BlockState
     ): Boolean = true
