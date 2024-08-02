@@ -66,7 +66,7 @@ class FruitBlock(val fruitItem: Item, properties: Properties) : Block(properties
     }
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block?, BlockState?>) {
-        builder.add(*arrayOf<Property<*>>(HORIZONTAL_FACING, AGE, MARKED))
+        builder.add(HORIZONTAL_FACING, AGE, MARKED)
     }
 
     override fun randomTick(

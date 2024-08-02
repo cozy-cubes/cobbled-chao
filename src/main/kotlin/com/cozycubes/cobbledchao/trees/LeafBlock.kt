@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.properties.Property
 
 class LeafBlock(properties: Properties) : Block(properties), TreePart {
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block?, BlockState?>) {
-        builder.add(*arrayOf<Property<*>>(MARKED))
+        builder.add(MARKED)
     }
 
     override fun tick(

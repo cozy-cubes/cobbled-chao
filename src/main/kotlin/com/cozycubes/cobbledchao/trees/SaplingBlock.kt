@@ -10,12 +10,10 @@ import com.cozycubes.cobbledchao.trees.Properties.SIZE
 import com.cozycubes.cobbledchao.trees.Properties.S_CONNECT
 import com.cozycubes.cobbledchao.trees.Properties.U_CONNECT
 import com.cozycubes.cobbledchao.trees.Properties.W_CONNECT
-import com.cozycubes.cobbledchao.trees.Properties.register
 import com.mojang.serialization.MapCodec
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.RandomSource
-import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.LevelReader
@@ -24,7 +22,6 @@ import net.minecraft.world.level.block.BonemealableBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.block.state.properties.IntegerProperty
-import net.minecraft.world.level.block.state.properties.Property
 
 // TODO: Continue to age until death if relevant to this tree.
 class SaplingBlock(val growthStages: GrowthStages, myProperties: Properties) :
@@ -51,9 +48,7 @@ class SaplingBlock(val growthStages: GrowthStages, myProperties: Properties) :
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
         builder.add(
-            *arrayOf<Property<*>>(
-                AGE, SIZE, U_CONNECT, D_CONNECT, N_CONNECT, E_CONNECT, S_CONNECT, W_CONNECT, MARKED
-            )
+            AGE, SIZE, U_CONNECT, D_CONNECT, N_CONNECT, E_CONNECT, S_CONNECT, W_CONNECT, MARKED
         )
     }
 
