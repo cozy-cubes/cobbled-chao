@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.BonemealableBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
+import net.minecraft.world.level.block.state.properties.BooleanProperty
 import net.minecraft.world.level.block.state.properties.IntegerProperty
 
 // TODO: Continue to age until death if relevant to this tree.
@@ -32,6 +33,7 @@ class SaplingBlock(val growthStages: GrowthStages, myProperties: Properties) :
         const val MAX_AGE = 10
         const val MAX_GROWTH_AGE = 5
         val AGE: IntegerProperty = IntegerProperty.create("age", 0, MAX_AGE)
+        val FLIP: BooleanProperty = BooleanProperty.create("flip")
     }
 
     init {
@@ -39,7 +41,14 @@ class SaplingBlock(val growthStages: GrowthStages, myProperties: Properties) :
             stateDefinition.any().setValue(AGE, 0).setValue(SIZE, 0).setValue(U_CONNECT, false)
                 .setValue(D_CONNECT, false).setValue(N_CONNECT, false).setValue(E_CONNECT, false)
                 .setValue(S_CONNECT, false).setValue(W_CONNECT, false).setValue(MARKED, false)
+                .setValue(FLIP, false)
         )
+    }
+
+    fun getRandomizedState(): BlockState {
+        val flipped = FLIP.possibleValues.random()
+        println(flipped)
+        return defaultBlockState().setValue(FLIP, flipped)
     }
 
     override fun codec(): MapCodec<out Block> {
@@ -48,7 +57,7 @@ class SaplingBlock(val growthStages: GrowthStages, myProperties: Properties) :
 
     override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
         builder.add(
-            AGE, SIZE, U_CONNECT, D_CONNECT, N_CONNECT, E_CONNECT, S_CONNECT, W_CONNECT, MARKED
+            AGE, SIZE, U_CONNECT, D_CONNECT, N_CONNECT, E_CONNECT, S_CONNECT, W_CONNECT, MARKED, FLIP
         )
     }
 

@@ -1,14 +1,17 @@
 package com.cozycubes.cobbledchao.trees
 
+import com.cozycubes.cobbledchao.extensions.flip
 import com.cozycubes.cobbledchao.trees.Properties.D_CONNECT
 import com.cozycubes.cobbledchao.trees.Properties.SIZE
 import com.cozycubes.cobbledchao.trees.Properties.U_CONNECT
 import com.cozycubes.cobbledchao.trees.SaplingBlock.Companion.AGE
+import com.cozycubes.cobbledchao.trees.SaplingBlock.Companion.FLIP
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.level.block.Rotation
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING
 import net.minecraft.world.level.block.state.properties.BooleanProperty
@@ -66,10 +69,11 @@ data class GrowthStages(
     )
 
     fun applyStage(age: Int, level: ServerLevel, saplingState: BlockState, saplingPos: BlockPos): TreeGrowthResult {
+        val flipped = saplingState.getValue(FLIP)
         val growthStage = pools[age]
 
         if (growthStage.any { growthStageEntry ->
-                val offset = growthStageEntry.pos
+                val offset = growthStageEntry.pos.flip(flipped)
                 val target = level.getBlockState(saplingPos.offset(offset))
                 return@any !(target.block is FruitBlock || target.block is SaplingBlock || target.block is TrunkBlock || target.block is LeafBlock || target.isAir)
             }) {
@@ -77,9 +81,10 @@ data class GrowthStages(
         }
 
         growthStage.forEach { growthStageEntry ->
-            val offset = growthStageEntry.pos
-            val state = growthStageEntry.evaluate(matchers)
-            level.setBlockAndUpdate(saplingPos.offset(offset), state)
+            val offset = growthStageEntry.pos.flip(flipped)
+            val entryState = growthStageEntry.evaluate(matchers)
+            val entryPos = saplingPos.offset(offset)
+            level.setBlockAndUpdate(entryPos, entryState)
         }
 
         level.setBlockAndUpdate(

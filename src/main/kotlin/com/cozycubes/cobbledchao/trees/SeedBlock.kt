@@ -13,8 +13,7 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
 
-class SeedBlock(val saplingBlock: SaplingBlock, val myProperties: Properties) : Block(myProperties),
-    BonemealableBlock {
+class SeedBlock(val saplingBlock: SaplingBlock, val myProperties: Properties) : Block(myProperties), BonemealableBlock {
     companion object {
         // TODO: Config this.
         const val REQUIRED_LIGHT = 9
@@ -37,12 +36,9 @@ class SeedBlock(val saplingBlock: SaplingBlock, val myProperties: Properties) : 
     }
 
     fun grow(serverLevel: ServerLevel, blockPos: BlockPos) {
-        serverLevel.setBlock(blockPos, saplingBlock.defaultBlockState(), 2)
+        val newState = saplingBlock.getRandomizedState()
         saplingBlock.performBonemeal(
-            serverLevel,
-            serverLevel.random,
-            blockPos,
-            saplingBlock.defaultBlockState()
+            serverLevel, serverLevel.random, blockPos, newState
         )
     }
 
@@ -51,27 +47,18 @@ class SeedBlock(val saplingBlock: SaplingBlock, val myProperties: Properties) : 
     }
 
     override fun getShape(
-        blockState: BlockState,
-        blockGetter: BlockGetter,
-        blockPos: BlockPos,
-        collisionContext: CollisionContext
+        blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos, collisionContext: CollisionContext
     ): VoxelShape = SHAPE
 
     override fun isValidBonemealTarget(levelReader: LevelReader, blockPos: BlockPos, blockState: BlockState): Boolean =
         true
 
     override fun isBonemealSuccess(
-        level: Level,
-        randomSource: RandomSource,
-        blockPos: BlockPos,
-        blockState: BlockState
+        level: Level, randomSource: RandomSource, blockPos: BlockPos, blockState: BlockState
     ): Boolean = true
 
     override fun performBonemeal(
-        serverLevel: ServerLevel,
-        randomSource: RandomSource,
-        blockPos: BlockPos,
-        blockState: BlockState
+        serverLevel: ServerLevel, randomSource: RandomSource, blockPos: BlockPos, blockState: BlockState
     ) {
         grow(serverLevel, blockPos)
     }
